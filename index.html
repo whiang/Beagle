@@ -1,0 +1,1982 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280">
+<title>Beagle</title>
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAFGElEQVR4nLWWe2wUVRTGv3tnZl/d3T6gtLQVpLTdUGmhtDVIAgqSIlbFEKIYExGNSE1jJWBS/cOAxogJRk0IAV+ACTGEpEQTHxCJ+CBCLbQNCYWu2xZo6RPottvdzu7OvWZmadnttjsDqV8ymZs7Z875zZl7zr0EBtX6+cNOmMNPEdBVnPFFBDwXoA7tIWVDnJF2Qkkz4/wUCQo/FtTUDxnxS/QMWvaVuUTKaxnjGymlFiNOGViAAt8RLu3Oqzrnvi+ArgOlthGFfMDBaiilgpHAk6CEOchnlhHpvTnbzwYMA3i+KC9gjB0HSCGmQZzhImHK+vzqxn91Adz7lywBoydAMXM6gt+lQD8TSIVryz9NUwJ41C8P8zPTHjwKAoqyLDoTdGzQ9G1xkpb2/yu4KoJ0ToW6a58stcYB2Hym9xP9cyJapoeBoki2hXbFALTsK3MxrtRM9kIgyOCdUYH5r/4Je+7qaYEA4dvce0vyxgHUOhcEIabUFMbR3juK+tZhEFumNic5c6YHAFSEKNRqI8+B0mRFYRujH/cPhVDv9uFqnwzOo8mj1yyBYE3TLgP9LE6M4YWWr5Y5RIXzSkEQtB/slxncNwK47QtP/hYhEB2zkVbyCpJyV0EwOyPOgsPwtZ/G7caDCHmvG8sBhY2Gg0+Kam9X093RJ+P6gKyWypSyZZUjteRlUNEa68zkgNP1NOzzK9B3eid8nl8NQXDOV4mdA3LZtQEZwVCCyHdkzS7T7kN9bWg6eQC9nkaAEszOK8eiiio4ZmQj8/EP0RUYROBGg64/wski0d09kktgvNV3t57Fif2vIxy829q9ve1ou/Az1lYfQvrcIsxa8S6uHt2g9eDEBMilUEhsPhNICcn47fD2mOBjCgaGcfrQdi2olPwAbFmRbCUURzKNWdg66rz8F2zJGShc8eKEiojI29+Bwc5mbWzJKDbkk4Jyvy7onVocudWNhx59CaWVNVhbfXBS2+GbXRHHZrt+dAIvJZTc0LMLDA9o96TUTFz5+xhGBnvQ466f1NbkjDQtxX9TH4CjjUpUaNGz63af0+45C5bD29eBuo+eQeMv++LsnOlzMWveEm3sN1AFnPBmSkXoFq26yjsv/QFBMmPlpj0QpfiNSbLY8dimPSCEYrSnCXL/ZV0AAnqKHN1WmHZbHu0WiGBKZKzW+Lq362Cxp2KwxxPpA23nQYmAzPxyLF6j9oEcrRp6ftiM4ODVhMEZgz/E/BnaUj70Vt7xUIg8q0ecmlWA1a/tRXL6g5M+993qQuv3O+AMxp284sTBvyzYen6LBnBsx8LiW4HABQr9w6f6G1yPbMC8kieQkpGrbfDe3jZ0NJ1E38U6FGaNHzGmFkOIU7agYOsFz3gxH67J/yYYxmbcpySRoDzfAZNooLFw7M6vanhHHY7jzkmR3iSUtd8vQEG21Vhw8GbRkhR7IlK1ctcln0MU1xHAi3tURoqEdKeka8cY62WMrJ+3+ffRsTkabfD8p1cu2q2k8l4gzCaqfb2R4CDiGtcbDW3R83Si4cY9rWccJrpcICTGcCotyLFCoHqp580AXeaqqo9sFIkAxjKRbbYUWyT6NQNTMIVyZpqQkiQmXO3qghPN9qUTv3xMZOq3Izq6zVUkg+8cHeWVhMI8Np9koSjNc6jnkfi4DH5C+RGAf6yWWiL/hjfjI7VFqUI4+JwcZKsVhRQunm+d5TBLkUMhhVfdWNTerrZXWRn5aWH1JZ8Rx/8BrHnmKNHzBZQAAAAASUVORK5CYII=">
+<style>
+:root {
+--bg: #eef0f3;
+--panel: #ffffff;
+--head: #f6f7f9;
+--line: #d3d7dd;
+--line-strong: #b9bec6;
+--text: #1d2125;
+--muted: #5f6670;
+--accent: #1f77b4;
+--accent-soft: #e3effa;
+--accent-line: #8db9e0;
+--led-off: #d62728;
+--from: #1f5fbf;
+--to: #d62728;
+--radius: 6px;
+color-scheme: light;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; height: 100%; }
+body {
+background: var(--bg);
+color: var(--text);
+font: 13px/1.4 "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
+display: flex;
+flex-direction: column;
+min-width: 1270px;
+min-height: 820px;
+}
+button, select, input { font: inherit; color: inherit; }
+.menubar { display: flex; align-items: center; gap: 4px; padding: 0 10px; background: #fff; border-bottom: 1px solid var(--line); height: 34px; flex: none; }
+.menu { position: relative; }
+.menu > button { background: none; border: 0; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+.menu > button:hover, .menu > button[aria-expanded="true"] { background: #eef1f5; }
+.menu-list { position: absolute; top: calc(100% + 2px); left: 0; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 6px 18px rgba(20, 30, 40, .12); z-index: 10; min-width: 190px; padding: 4px; }
+.menu-list button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
+.menu-list button:hover { background: var(--accent-soft); }
+.app-title { font-weight: 600; color: var(--muted); margin-left: 6px; }
+.status { margin-left: auto; min-width: 0; color: #b42318; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60vw; padding-right: 10px; }
+.status.ok { color: var(--muted); }
+.lang { display: flex; border: 1px solid var(--line); border-radius: 5px; overflow: hidden; flex: none; }
+.lang button { border: 0; background: #fff; font-size: 12px; padding: 3px 9px; cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+.layout {
+flex: 1;
+display: grid;
+grid-template-columns: 230px 240px minmax(400px, 1fr) minmax(360px, 1fr);
+gap: 8px;
+padding: 8px;
+min-height: 0;
+}
+.col { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.col1, .col2 { overflow-y: auto; }
+h2 { margin: 0; font-size: 13px; font-weight: 700; text-align: center; color: #2b3138; background: var(--head); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 4px 0; letter-spacing: .1px; }
+.col > h2:first-child { border-top: 0; }
+.row { display: flex; align-items: center; gap: 6px; padding: 3px 8px; }
+.center { justify-content: center; text-align: center; }
+.sub { padding: 3px 0 0; color: var(--muted); }
+select, input[type=number] { border: 1px solid var(--line-strong); background: #fff; padding: 1px 6px; height: 24px; border-radius: 4px; }
+select:focus, input:focus, button:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 0; }
+select { min-width: 140px; }
+input[type=number] { width: 100px; text-align: right; font-variant-numeric: tabular-nums; }
+.dataload { display: flex; gap: 6px; padding: 6px 8px; }
+.dirpath { flex: 1; font-size: 12px; word-break: break-all; min-height: 58px; color: var(--muted); background: #fafbfc; border: 1px solid var(--line); border-radius: 4px; padding: 4px 6px; }
+.dl-buttons { display: flex; flex-direction: column; gap: 4px; }
+.iconbtn { width: 32px; height: 28px; border: 1px solid var(--line-strong); border-radius: 4px; background: #fff; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
+.iconbtn:hover { background: #f3f6f9; }
+.iconbtn svg { width: 19px; height: 19px; }
+.grid2 { display: grid; grid-template-columns: auto auto; gap: 3px 8px; align-items: center; justify-content: center; padding: 5px 8px; }
+.grid2 label { text-align: right; color: #39414a; }
+.colmap input { width: 64px; }
+.tree-tools { display: flex; gap: 6px; padding: 6px 8px 2px; }
+.tree-tools button { flex: 1; font-size: 12px; padding: 3px 4px; border: 1px solid var(--line-strong); border-radius: 4px; background: #fff; cursor: pointer; }
+.tree-tools button:hover { background: #f3f6f9; }
+.tree { flex: 1 1 180px; min-height: 140px; overflow: auto; padding: 4px 8px; font-size: 13px; }
+.tree ul { list-style: none; margin: 0; padding-left: 14px; }
+.tree > ul { padding-left: 0; }
+.tree summary { cursor: pointer; white-space: nowrap; padding: 1px 0; }
+.tree summary::before { content: "\1F4C1 "; }
+.tree li.file { white-space: nowrap; padding: 1px 0; }
+.tree li.file label { cursor: pointer; }
+.tree input[type=checkbox] { accent-color: var(--accent); vertical-align: -2px; }
+.tree .empty { color: var(--muted); padding: 6px; }
+.toggle { margin: 6px 8px; padding: 7px; border: 1px solid var(--line-strong); border-radius: 5px; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; }
+.toggle .check { color: #c4c8ce; font-size: 14px; }
+.toggle.on { background: var(--led-off); border-color: var(--led-off); color: #fff; }
+.toggle.on .check { color: #fff; }
+.beagle { text-align: center; padding: 4px 6px 8px; }
+.beagle img { width: 176px; display: block; margin: 0 auto; }
+.beagle a { font-size: 11px; color: var(--accent); }
+.samplelist { padding: 6px 8px; }
+.samplelist select { flex: 1; min-width: 0; }
+.mini { width: 40px; height: 20px; flex: none; }
+.legend { list-style: none; margin: 6px 0 0; padding: 0; max-height: 140px; overflow-y: auto; border: 1px solid var(--line); border-radius: 4px; }
+.legend li { display: flex; align-items: center; gap: 8px; padding: 1px 8px; }
+.legend li + li { border-top: 1px solid #eef0f3; }
+.legend .sw { width: 28px; height: 4px; border-radius: 2px; flex: none; }
+.legend .nm { flex: 1; }
+.filter { padding: 5px 12px 1px; }
+.filter input { width: 100%; accent-color: var(--accent); }
+.filter .scale { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+.cal select { min-width: 130px; }
+.calpic { text-align: center; }
+.calpic svg { width: 120px; height: 36px; }
+#calAtomic input { width: 100px; }
+.grid3 { display: grid; grid-template-columns: auto 100px auto; gap: 3px 6px; align-items: center; justify-content: center; padding: 3px 0; }
+.grid3 label { text-align: right; font-weight: 600; }
+.c-from { color: var(--from); }
+.c-to { color: var(--to); }
+.step { display: flex; align-items: center; justify-content: center; gap: 10px; width: calc(100% - 16px); margin: 3px 8px; padding: 4px 10px; border: 1px solid var(--line-strong); border-radius: 5px; background: #fff; cursor: pointer; position: relative; }
+.step .led { width: 10px; height: 10px; border-radius: 50%; background: var(--led-off); flex: none; position: absolute; left: 12px; }
+.step:hover { background: #f5f7fa; }
+.step.done { background: var(--accent-soft); border-color: var(--accent-line); color: #0f4c81; font-weight: 600; }
+.step:disabled { opacity: .55; cursor: not-allowed; }
+.mo #nRes { width: 56px; }
+.reslist { list-style: none; margin: 0; padding: 1px 8px; max-height: 80px; overflow-y: auto; }
+.reslist li { display: flex; align-items: center; gap: 6px; justify-content: center; padding: 1px 0; }
+.reslist .sw { width: 28px; height: 4px; border-radius: 2px; background: var(--led-off); }
+.reslist input { width: 100px; }
+.mo select { min-width: 140px; }
+#pOther { width: 64px; height: 24px; }
+.col3, .col4 { background: transparent; border: 0; gap: 8px; overflow: visible; }
+.plotbox { flex: 1; display: flex; flex-direction: column; min-height: 0; position: relative; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 4px 6px 26px; }
+.plot-host { flex: 1; min-height: 0; }
+.tools { position: absolute; left: 8px; bottom: 4px; display: flex; gap: 3px; }
+.tools button { min-width: 24px; height: 20px; padding: 0 5px; border: 1px solid var(--line); border-radius: 3px; background: #fff; font-size: 11px; line-height: 1; color: var(--muted); cursor: pointer; }
+.tools button:hover { background: #f3f6f9; }
+.tools button.active { background: var(--accent-soft); border-color: var(--accent-line); color: #0f4c81; }
+dialog { border: 1px solid var(--line); border-radius: 8px; max-width: 560px; font-size: 13px; box-shadow: 0 12px 32px rgba(20, 30, 40, .2); padding: 18px 20px; }
+dialog::backdrop { background: rgba(20, 30, 40, .25); }
+dialog h3 { margin: 0 0 10px; font-size: 16px; }
+dialog form { text-align: right; }
+dialog button, .dlg-actions button { padding: 5px 14px; border: 1px solid var(--line-strong); border-radius: 5px; background: #fff; cursor: pointer; }
+dialog button:hover { background: #f3f6f9; }
+.dlg-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+dialog.wide { max-width: min(1100px, 96vw); }
+.note { color: var(--muted); font-size: 12px; }
+.summary { max-height: 60vh; overflow: auto; border: 1px solid var(--line); border-radius: 5px; }
+.summary table { border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+.summary th, .summary td { border-bottom: 1px solid #eceef1; padding: 4px 8px; text-align: right; white-space: nowrap; }
+.summary th { background: var(--head); position: sticky; top: 0; border-bottom: 1px solid var(--line); }
+.summary td.l { text-align: left; }
+.drop-overlay { position: fixed; inset: 0; background: rgba(31, 119, 180, .14); border: 3px dashed var(--accent); display: flex; align-items: center; justify-content: center; z-index: 50; pointer-events: none; }
+.drop-overlay span { background: #fff; padding: 12px 20px; border-radius: 8px; font-size: 16px; box-shadow: 0 6px 18px rgba(20, 30, 40, .15); }
+</style>
+</head>
+<body>
+<header class="menubar">
+<div class="menu">
+<button type="button" class="menu-btn" aria-haspopup="true" aria-expanded="false">About(A)</button>
+<div class="menu-list" hidden>
+<button type="button" data-dialog="dlgManual">Manual(M)</button>
+<button type="button" data-dialog="dlgInfo">Information(I)</button>
+<button type="button" data-dialog="dlgSoftware">Software(S)</button>
+</div>
+</div>
+<div class="menu">
+<button type="button" class="menu-btn" aria-haspopup="true" aria-expanded="false" data-i18n="menu.tools">Tools(T)</button>
+<div class="menu-list" hidden>
+<button type="button" id="saveSettingsBtn" data-i18n="menu.saveSettings">Save settings (JSON)</button>
+<button type="button" id="loadSettingsBtn" data-i18n="menu.loadSettings">Load settings (JSON)</button>
+<button type="button" id="summaryBtn" data-i18n="menu.summary">Summary table</button>
+</div>
+</div>
+<span class="app-title">Beagle</span>
+<output id="status" class="status" aria-live="polite"></output>
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-lang="ko">KO</button><button type="button" data-lang="en">EN</button>
+</div>
+<input type="file" id="settingsInput" accept=".json,application/json" hidden>
+</header>
+<main class="layout">
+<!-- column 1 -->
+<section class="col col1">
+<h2>Beam Line</h2>
+<div class="row center">
+<select id="beamline">
+<option value="4D">4D</option>
+<option value="10A2">10A2</option>
+</select>
+</div>
+<h2>Data Load</h2>
+<div class="dataload">
+<div id="dirPath" class="dirpath">&nbsp;</div>
+<div class="dl-buttons">
+<label class="iconbtn" title="Open folder">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h7l2 2h9v11H3z" fill="#5b86c5" stroke="#2b4f86"/></svg>
+<input type="file" id="dirInput" webkitdirectory multiple hidden>
+</label>
+<button type="button" class="iconbtn" id="refreshBtn" title="Refresh">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 8a8 8 0 1 0 1 6" fill="none" stroke="#2b6cb0" stroke-width="2.5"/><path d="M20 3v6h-6z" fill="#2b6cb0"/></svg>
+</button>
+</div>
+</div>
+<h2>File Structure : &nbsp;[ Column ]</h2>
+<div class="grid2 colmap">
+<label for="colE">Photon Energy :</label><input id="colE" type="number" min="1" step="1" value="1">
+<label for="colT">TEY Spectrum :</label><input id="colT" type="number" min="1" step="1" value="2">
+<label for="colP">PEY Spectrum :</label><input id="colP" type="number" min="1" step="1" value="3">
+<label for="colM">Mesh Current :</label><input id="colM" type="number" min="1" step="1" value="4">
+</div>
+<h2>Decimal Mark</h2>
+<div class="row center">
+<select id="decimal">
+<option value="dot">dot (123.45)</option>
+<option value="comma">comma (123,45)</option>
+</select>
+</div>
+<h2>Files in Directory</h2>
+<div class="tree-tools">
+<button type="button" id="selAllBtn" data-i18n="tree.all">Select all</button>
+<button type="button" id="selNoneBtn" data-i18n="tree.none">Clear</button>
+</div>
+<div id="tree" class="tree"></div>
+<button type="button" id="angleDep" class="toggle on" aria-pressed="true">
+<span class="check">&#10004;</span> Angle Depending Selection
+</button>
+<div class="beagle">
+<img src="data:image/png;base64,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" alt="Beagle">
+<a href="https://sites.google.com/view/beagle" target="_blank" rel="noopener">https://sites.google.com/view/beagle</a>
+</div>
+</section>
+<!-- column 2 -->
+<section class="col col2">
+<h2>Sample List</h2>
+<div class="samplelist">
+<div class="row">
+<svg class="mini" viewBox="0 0 40 20" aria-hidden="true"><path d="M1 17 L10 16 L13 6 L16 9 L19 4 L24 8 L39 9" fill="none" stroke="#333"/></svg>
+<select id="sampleSel" aria-label="Sample"></select>
+</div>
+<ul id="fileLegend" class="legend"></ul>
+</div>
+<h2>Plot Filter (Median)</h2>
+<div class="filter">
+<input id="factor" type="range" min="0" max="0.5" step="0.001" value="0" aria-label="Plot filter factor">
+<div class="scale"><span>0</span><output id="factorOut">0.000</output><span>0.5</span></div>
+</div>
+<h2>Photon Energy Calibration</h2>
+<div class="grid2 cal">
+<label for="calTarget">Target</label>
+<select id="calTarget"><option value="tey">TEY Spectrum</option><option value="pey">PEY Spectrum</option></select>
+<label for="calElement">Element</label>
+<select id="calElement"><option value="carbon">Carbon, C</option><option value="atomic" selected>Atomic Element</option></select>
+</div>
+<div id="calCarbon" class="calpic" hidden>
+<svg viewBox="0 0 120 40" aria-label="MC 284.7 eV"><text x="4" y="14" font-size="8">MC</text><path d="M18 8 C26 8 28 34 32 34 C36 34 36 14 44 14 C52 14 60 18 80 18" fill="none" stroke="#000"/><path d="M33 34 L84 34" stroke="#000" marker-end="url(#arr)"/><defs><marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6z"/></marker></defs><text x="86" y="37" font-size="7">284.7 eV</text></svg>
+</div>
+<div id="calAtomic" class="row center">
+<input id="shift" type="number" step="0.01" value="0.00" aria-label="Shift (eV)"><span>eV</span>
+</div>
+<h2>Background Corrections</h2>
+<div class="bg">
+<div class="center sub">Pre-Edge Range</div>
+<div class="grid3">
+<label for="from" class="c-from">From</label><input id="from" type="number" step="0.01"><span>eV</span>
+<label for="to" class="c-to">To</label><input id="to" type="number" step="0.01"><span>eV</span>
+<label for="end">End</label><input id="end" type="number" step="0.01"><span>eV</span>
+</div>
+<button type="button" id="applyBtn" class="step"><span class="led"></span>Apply</button>
+<button type="button" id="exportNormBtn" class="step"><span class="led"></span>Export the Corrections</button>
+</div>
+<h2>Molecular Orientation</h2>
+<div class="mo">
+<div class="row center"><label for="nRes"># of Resonances</label><input id="nRes" type="number" min="1" step="1" value="1"></div>
+<ul id="resList" class="reslist"></ul>
+<div class="row center"><select id="orbital"><option>Vector</option><option>Plane</option></select></div>
+<div class="row center">
+<select id="magnet">
+<option value="bending">Bending (4D)</option>
+<option value="undulator" selected>Undulator (2A)</option>
+<option value="other">other</option>
+</select>
+</div>
+<div class="row center">[ P = <span id="pText">1.00</span><input id="pOther" type="number" step="0.01" min="0" value="1.00" hidden aria-label="P"> ]</div>
+<button type="button" id="printBtn" class="step"><span class="led"></span>Print the Estimations</button>
+<div class="row center"><label for="resSel">Resonance</label><select id="resSel"></select></div>
+<button type="button" id="exportFitBtn" class="step"><span class="led"></span>Export the Estimations</button>    </div>
+</section>
+<!-- column 3: spectra -->
+<section class="col col3">
+<div class="plotbox"><div class="plot-host" id="pTey"></div><div class="tools" data-plot="tey"></div></div>
+<div class="plotbox"><div class="plot-host" id="pPey"></div><div class="tools" data-plot="pey"></div></div>
+<div class="plotbox"><div class="plot-host" id="pMesh"></div><div class="tools" data-plot="mesh"></div></div>
+</section>
+<!-- column 4: estimations -->
+<section class="col col4">
+<div class="plotbox"><div class="plot-host" id="rTey"></div><div class="tools" data-plot="rTey"></div></div>
+<div class="plotbox"><div class="plot-host" id="rPey"></div><div class="tools" data-plot="rPey"></div></div>
+</section>
+</main>
+<dialog id="dlgManual">
+<h3 data-i18n="manual.title">Manual</h3>
+<div data-i18n-html="manual.body"></div>
+<form method="dialog"><button>OK</button></form>
+</dialog>
+<dialog id="dlgInfo">
+<h3 data-i18n="info.title">Information</h3>
+<div data-i18n-html="info.body"></div>
+<p><a href="https://sites.google.com/view/beagle" target="_blank" rel="noopener">https://sites.google.com/view/beagle</a></p>
+<form method="dialog"><button>OK</button></form>
+</dialog>
+<dialog id="dlgSoftware">
+<h3 data-i18n="software.title">Software</h3>
+<p>Beagle web <span id="version"></span></p>
+<p data-i18n="software.body"></p>
+<form method="dialog"><button>OK</button></form>
+</dialog>
+<dialog id="dlgExport">
+<h3 data-i18n="export.title">Export</h3>
+<p id="exportMsg"></p>
+<div class="dlg-actions">
+<form method="dialog"><button>OK</button></form>
+</div>
+</dialog>
+<dialog id="dlgSummary" class="wide">
+<h3 data-i18n="summary.title">Summary table</h3>
+<div id="summaryBody" class="summary"></div>
+<div class="dlg-actions">
+<button type="button" id="summaryCsvBtn" data-i18n="summary.csv">Save CSV</button>
+<form method="dialog"><button>OK</button></form>
+</div>
+</dialog>
+<div id="dropOverlay" class="drop-overlay" hidden><span data-i18n="drop.here">Drop to load</span></div>
+<script>
+"use strict";
+const __core_js = (() => {
+function fmtE(v) {
+if (Number.isNaN(v)) return 'NaN';
+if (!Number.isFinite(v)) return v > 0 ? 'Inf' : '-Inf';
+return v.toExponential(6).replace('e', 'E');
+}
+function fmtF(v, digits = 2) {
+if (Number.isNaN(v)) return 'NaN';
+if (!Number.isFinite(v)) return v > 0 ? 'Inf' : '-Inf';
+return v.toFixed(digits);
+}
+function roundHalfEven(v) {
+const r = Math.round(v);
+return Math.abs(v % 1) === 0.5 && r % 2 !== 0 ? r - 1 : r;
+}
+function baseName(path) {
+return String(path).split(/[\\/]/).pop();
+}
+function stripExt(name) {
+const n = baseName(name);
+const i = n.lastIndexOf('.');
+return i > 0 ? n.slice(0, i) : n;
+}
+function sampleKey(name) {
+let n = baseName(name);
+if (n.lastIndexOf('.') <= 0) n += '.dat';
+return n.slice(0, -7);
+}
+function decimalStringToNumber(s) {
+const m = /^\s*[+-]?\d+/.exec(s);
+return m ? parseInt(m[0], 10) : 0;
+}
+function angleFromName(name) {
+return decimalStringToNumber(stripExt(name).slice(-2));
+}
+function cos2(deg) {
+return Math.cos(deg * Math.PI / 180) ** 2;
+}
+function groupSamples(names) {
+const groups = new Map();
+for (const n of [...names].sort()) {
+const k = sampleKey(n);
+if (!groups.has(k)) groups.set(k, []);
+groups.get(k).push(n);
+}
+return groups;
+}
+const BEAMLINES = ['4D', '10A2'];
+function parseTable(text, { decimal = 'dot', skipLines = 0 } = {}) {
+const lines = String(text).split(/\r\n|\n|\r/).slice(skipLines);
+const rows = [];
+for (const line of lines) {
+if (!line.trim()) continue;
+const cells = line.split('\t').map(c => c.trim()).filter(c => c !== '');
+if (!cells.length) continue;
+const nums = cells.map(c => {
+if (decimal === 'comma') c = c.replace(/,([^,]*)$/, '.$1');
+return Number(c);
+});
+if (!Number.isFinite(nums[0])) continue;
+rows.push(nums.map(v => (Number.isFinite(v) ? v : 0)));
+}
+return rows;
+}
+function toColumns(rows) {
+const nc = Math.max(0, ...rows.map(r => r.length));
+const cols = [];
+for (let c = 0; c < nc; c++) cols.push(rows.map(r => (c < r.length ? r[c] : 0)));
+return cols;
+}
+function readBeamlineFile(text, { beamline = '4D', decimal = 'dot' } = {}) {
+if (beamline === '10A2') {
+const c = toColumns(parseTable(text, { decimal, skipLines: 10 }));
+if (c.length < 4) throw new Error('10A2: need 4 columns (E, Ch1, Ch2, Ch3)');
+return [c[0], c[2].map((v, i) => v / c[1][i]), c[3].map((v, i) => v / c[1][i]), c[1]];
+}
+if (beamline === '4D') return toColumns(parseTable(text, { decimal }));
+throw new Error(`unsupported beamline: ${beamline}`);
+}
+function medianFilter(x, rank) {
+const n = x.length, w = 2 * rank + 1, out = new Array(n), buf = new Array(w);
+for (let i = 0; i < n; i++) {
+for (let k = 0; k < w; k++) {
+const j = i - rank + k;
+buf[k] = j >= 0 && j < n ? x[j] : 0;
+}
+buf.sort((a, b) => a - b);
+out[i] = buf[rank];
+}
+return out;
+}
+function solve(A, b) {
+const n = b.length, M = A.map((r, i) => [...r, b[i]]);
+for (let c = 0; c < n; c++) {
+let p = c;
+for (let r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r;
+[M[c], M[p]] = [M[p], M[c]];
+for (let r = c + 1; r < n; r++) {
+const f = M[r][c] / M[c][c];
+for (let k = c; k <= n; k++) M[r][k] -= f * M[c][k];
+}
+}
+const x = new Array(n);
+for (let r = n - 1; r >= 0; r--) {
+let s = M[r][n];
+for (let k = r + 1; k < n; k++) s -= M[r][k] * x[k];
+x[r] = s / M[r][r];
+}
+return x;
+}
+function polyEvalWeights(w, order, t) {
+const m = (w - 1) / 2, p = order + 1;
+const A = Array.from({ length: p }, () => new Array(p).fill(0));
+for (let k = 0; k < w; k++) {
+const u = k - m;
+for (let a = 0; a < p; a++) for (let b = 0; b < p; b++) A[a][b] += u ** (a + b);
+}
+const z = solve(A, Array.from({ length: p }, (_, a) => t ** a));
+return Array.from({ length: w }, (_, k) => z.reduce((s, zk, a) => s + zk * (k - m) ** a, 0));
+}
+function savitzkyGolay(x, side = 6, order = 3) {
+const n = x.length, w = 2 * side + 1;
+if (n < w) throw new Error('Savitzky-Golay: not enough points');
+const out = new Array(n);
+const mid = polyEvalWeights(w, order, 0);
+for (let i = side; i < n - side; i++) {
+let s = 0;
+for (let k = 0; k < w; k++) s += mid[k] * x[i - side + k];
+out[i] = s;
+}
+for (let i = 0; i < side; i++) {
+const hl = polyEvalWeights(w, order, i - side);
+const hr = polyEvalWeights(w, order, side - i);
+let sl = 0, sr = 0;
+for (let k = 0; k < w; k++) { sl += hl[k] * x[k]; sr += hr[k] * x[n - w + k]; }
+out[i] = sl;
+out[n - 1 - i] = sr;
+}
+return out;
+}
+function spikeFilter(y, factor) {
+if (!(factor > 0)) return y.slice();
+const f = savitzkyGolay(medianFilter(y, 1));
+return y.map((v, i) => (Math.abs(v - f[i]) > factor ? f[i] : v));
+}
+function filterColumns(cols, factor) {
+return cols.map((c, i) => (i === 0 ? c.slice() : spikeFilter(c, factor)));
+}
+function columnData(cols, map = { energy: 1, tey: 2, pey: 3, mesh: 4 }) {
+const pick = n => {
+const c = cols[n - 1];
+if (!c) throw new Error(`column ${n} not found`);
+return c.slice();
+};
+return { x: pick(map.energy), tey: pick(map.tey), pey: pick(map.pey), mesh: pick(map.mesh) };
+}
+function loadSpectrum(text, { beamline = '4D', decimal = 'dot', factor = 0, columns } = {}) {
+const cols = filterColumns(readBeamlineFile(text, { beamline, decimal }), factor);
+return columnData(cols, columns);
+}
+function resample001(x, y) {
+const last = x[x.length - 1], xi = [];
+for (let i = 0; ; i++) {
+const v = i * 0.001 + x[0];
+xi.push(v);
+if (v > last) break;
+}
+const yi = new Array(xi.length);
+let j = 0;
+for (let i = 0; i < xi.length; i++) {
+const v = xi[i];
+while (j < x.length - 2 && v > x[j + 1]) j++;
+yi[i] = y[j] + (v - x[j]) * (y[j + 1] - y[j]) / (x[j + 1] - x[j]);
+}
+return { xi, yi };
+}
+const CARBON_REF_EV = 284.7;
+function meshTouchPoint(xi, yi) {
+let jMax = 0, jMin = 0, dMax = -Infinity, dMin = Infinity;
+for (let j = 0; j < yi.length - 1; j++) {
+const d = yi[j + 1] - yi[j];
+if (d > dMax) { dMax = d; jMax = j; }
+if (d < dMin) { dMin = d; jMin = j; }
+}
+const tangent = j => {
+const m = (yi[j + 1] - yi[j]) / (xi[j + 1] - xi[j]);
+return v => (v - xi[j]) * m + yi[j];
+};
+const l1 = tangent(jMax), l2 = tangent(jMin);
+let k = 0, best = Infinity;
+for (let i = 0; i < xi.length; i++) {
+const d = Math.abs(l1(xi[i]) - l2(xi[i]));
+if (d < best) { best = d; k = i; }
+}
+const touch = xi[k];
+return { touch, delta: Math.abs(CARBON_REF_EV - touch) };
+}
+function calibrateCarbon(samples) {
+let lastDelta = 0;
+const out = samples.map(files => files.map(s => {
+const t = resample001(s.x, s.tey), p = resample001(s.x, s.pey), m = resample001(s.x, s.mesh);
+const { touch, delta } = meshTouchPoint(m.xi, m.yi);
+lastDelta = delta;
+const x = m.xi.map(v => v + delta);
+return { ...s, x, tey: t.yi, pey: p.yi, mesh: m.yi, touch, delta };
+}));
+return { samples: out, cursorDelta: lastDelta };
+}
+function applyShift(spectrum, shift) {
+const s = roundHalfEven(shift * 100) / 100;
+return { ...spectrum, x: spectrum.x.map(v => v + s) };
+}
+function nearestIndex(x, v) {
+let k = 0, best = Infinity;
+for (let i = 0; i < x.length; i++) {
+const d = Math.abs(x[i] - v);
+if (d < best) { best = d; k = i; }
+}
+return k;
+}
+function lsLine(x, y) {
+const n = x.length;
+let sx = 0, sy = 0, sxy = 0, sxx = 0;
+for (let i = 0; i < n; i++) { sx += x[i]; sy += y[i]; sxy += x[i] * y[i]; sxx += x[i] * x[i]; }
+const de = n * sxx - sx * sx;
+return { m: (n * sxy - sx * sy) / de, b: (sxx * sy - sx * sxy) / de };
+}
+function normalize(x, y, from, to, end) {
+const i0 = nearestIndex(x, from), i1 = nearestIndex(x, to), ie = nearestIndex(x, end);
+const len = Math.abs(i1 - i0);
+const { m, b } = lsLine(x.slice(i0, i0 + len), y.slice(i0, i0 + len));
+const d = y.map((v, i) => v - (m * x[i] + b));
+const mn = Math.min(...d);
+const d2 = d.map(v => v - mn);
+const ref = d2[ie];
+return { norm: d2.map(v => v / ref), line: { m, b }, idx: { from: i0, to: i1, end: ie } };
+}
+function resonancePoints(files, R) {
+return files.map(f => {
+const k = nearestIndex(f.x, R);
+return { name: f.name, cos2: cos2(angleFromName(f.name)), tey: f.normTey[k], pey: f.normPey[k] };
+});
+}
+function lowerMedian(v) {
+const s = [...v].sort((a, b) => a - b);
+return s[(s.length - 1) >> 1];
+}
+function weightedMedian(v, w) {
+const idx = v.map((_, i) => i).sort((a, b) => v[a] - v[b] || a - b);
+let total = 0;
+for (const i of idx) total += w[i];
+let c = 0;
+for (const i of idx) {
+c += w[i];
+if (c >= total / 2) return v[i];
+}
+return v[idx[idx.length - 1]];
+}
+function larLine(x, y, tol = 1e-4, maxIter = 50) {
+let { m, b } = lsLine(x, y);
+const meanAbs = (m, b) => x.reduce((s, xi, i) => s + Math.abs(y[i] - m * xi - b), 0) / x.length;
+let res = meanAbs(m, b);
+const nz = x.map((_, i) => i).filter(i => x[i] !== 0);
+const w = nz.map(i => Math.abs(x[i]));
+for (let it = 0; it < maxIter; it++) {
+m = weightedMedian(nz.map(i => (y[i] - b) / x[i]), w);
+b = lowerMedian(x.map((xi, i) => y[i] - m * xi));
+const r2 = meanAbs(m, b);
+const stop = Math.abs(res - r2) <= tol * r2;
+res = r2;
+if (stop) break;
+}
+return { m, b, residue: res };
+}
+const P_BY_MAGNET = { bending: 0.85, undulator: 1.0 };
+function alphaFrom(m, b, P, orbital = 'Vector') {
+const q = m / (b * P);
+const a = orbital === 'Plane' ? 2 * (1 + q) / (3 + q) : 2 / (q + 3);
+return (180 / Math.PI) * Math.asin(Math.sqrt(a));
+}
+const FIT_X = Array.from({ length: 101 }, (_, i) => i * 0.01);
+function fitLine(m, b) {
+return FIT_X.map(v => v * m + b);
+}
+function dichroicRatio(m, b) {
+const y = fitLine(m, b);
+const y0 = y[0], y1 = y[y.length - 1];
+return (y0 - y1) / (y0 + y1);
+}
+function orientation(cos2s, I, P, orbital = 'Vector') {
+const { m, b, residue: e } = larLine(cos2s, I);
+const alpha = alphaFrom(m, b, P, orbital);
+const alphaErr = Math.abs(alphaFrom(m + e, b + e, P, orbital) - alpha);
+const dr = dichroicRatio(m, b);
+const drErr = Math.abs(dichroicRatio(m + e, b + e) - dr);
+return { m, b, e, alpha, alphaErr, dr, drErr, fit: { x: FIT_X, y: fitLine(m, b) } };
+}
+function alphaDrResults(tey, pey) {
+return [tey.alpha, tey.alphaErr, pey.alpha, pey.alphaErr, tey.dr, tey.drErr, pey.dr, pey.drErr].map(v => fmtF(v, 2));
+}
+return { fmtE, fmtF, roundHalfEven, baseName, stripExt, sampleKey, angleFromName, cos2, groupSamples, BEAMLINES, parseTable, toColumns, readBeamlineFile, medianFilter, savitzkyGolay, spikeFilter, filterColumns, columnData, loadSpectrum, resample001, CARBON_REF_EV, meshTouchPoint, calibrateCarbon, applyShift, nearestIndex, lsLine, normalize, resonancePoints, larLine, P_BY_MAGNET, alphaFrom, FIT_X, fitLine, dichroicRatio, orientation, alphaDrResults };
+})();
+const __export_js = (() => {
+const { fmtE, fmtF, FIT_X } = __core_js;
+const CRLF = '\r\n';
+function spreadsheet(columns) {
+const n = Math.max(...columns.map(c => c.length));
+let s = '';
+for (let i = 0; i < n; i++) s += columns.map(c => fmtE(i < c.length ? c[i] : 0)).join('\t') + CRLF;
+return s;
+}
+function normFiles(sample) {
+const files = sample.files;
+const x = files[files.length - 1].x;
+const cut = a => x.map((_, i) => (i < a.length ? a[i] : 0));
+return [
+{ path: `norm/${sample.key}_norm_TEY.dat`, text: spreadsheet([x, ...files.map(f => cut(f.normTey))]) },
+{ path: `norm/${sample.key}_norm_PEY.dat`, text: spreadsheet([x, ...files.map(f => cut(f.normPey))]) },
+];
+}
+function fitFileName(sample, R, P, mode, orbital) {
+return `${sample}_${fmtF(R, 2)} eV_(P=${fmtF(P, 2)}, ${mode}, ${orbital}).dat`;
+}
+function fitFiles(result) {
+const out = [];
+const Rs = `${fmtF(result.R, 2)} eV`;
+for (const s of result.samples) {
+for (const mode of ['TEY', 'PEY']) {
+const key = mode.toLowerCase(), o = s[key];
+const dir = `${Rs}/${s.key}/`;
+out.push({ path: dir + fitFileName(s.key, result.R, result.P, `${mode}o`, result.orbital),
+text: spreadsheet([s.pts.map(p => p.cos2), s.pts.map(p => p[key])]) });
+out.push({ path: dir + fitFileName(s.key, result.R, result.P, `${mode}-`, result.orbital),
+text: spreadsheet([FIT_X, o ? o.fit.y : FIT_X.map(() => NaN)]) });
+}
+}
+return out;
+}
+function fitLegend(key, o) {
+return o ? `${key} (α=${fmtF(o.alpha)}°±${fmtF(o.alphaErr)}°, DR=${fmtF(o.dr)}±${fmtF(o.drErr)})` : `${key} (NaN)`;
+}
+function summaryRows(results) {
+const rows = [];
+for (const r of results) for (const s of r.samples) for (const mode of ['TEY', 'PEY']) {
+const o = s[mode.toLowerCase()];
+rows.push({
+sample: s.key, resonance: r.R, mode, P: r.P, orbital: r.orbital,
+alpha: o ? o.alpha : NaN, alphaErr: o ? o.alphaErr : NaN, dr: o ? o.dr : NaN, drErr: o ? o.drErr : NaN,
+});
+}
+return rows;
+}
+const csvCell = v => (typeof v === 'number' ? (Number.isFinite(v) ? String(v) : '') : `"${String(v).replace(/"/g, '""')}"`);
+function summaryCsv(rows) {
+const header = ['Sample', 'Resonance (eV)', 'Mode', 'P', 'Orbital', 'alpha (deg)', 'alpha error (deg)', 'DR', 'DR error'];
+const lines = [header.map(csvCell).join(',')];
+for (const w of rows) {
+lines.push([w.sample, fmtF(w.resonance, 2), w.mode, fmtF(w.P, 2), w.orbital, fmtF(w.alpha), fmtF(w.alphaErr), fmtF(w.dr), fmtF(w.drErr)]
+.map(csvCell).join(','));
+}
+return lines.join(CRLF) + CRLF;
+}
+const CRC_TABLE = (() => {
+const t = new Uint32Array(256);
+for (let n = 0; n < 256; n++) {
+let c = n;
+for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+t[n] = c >>> 0;
+}
+return t;
+})();
+function crc32(bytes) {
+let c = 0xffffffff;
+for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xff] ^ (c >>> 8);
+return (c ^ 0xffffffff) >>> 0;
+}
+function zip(files, date = new Date()) {
+const enc = new TextEncoder();
+const dosTime = (date.getHours() << 11) | (date.getMinutes() << 5) | (date.getSeconds() >> 1);
+const dosDate = ((date.getFullYear() - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate();
+const locals = [], centrals = [];
+let offset = 0;
+for (const f of files) {
+const name = enc.encode(f.path);
+const data = f.bytes || enc.encode(f.text);
+const crc = crc32(data);
+const head = new DataView(new ArrayBuffer(30));
+head.setUint32(0, 0x04034b50, true); head.setUint16(4, 20, true); head.setUint16(6, 0x0800, true);
+head.setUint16(8, 0, true); head.setUint16(10, dosTime, true); head.setUint16(12, dosDate, true);
+head.setUint32(14, crc, true); head.setUint32(18, data.length, true); head.setUint32(22, data.length, true);
+head.setUint16(26, name.length, true); head.setUint16(28, 0, true);
+locals.push(new Uint8Array(head.buffer), name, data);
+const cen = new DataView(new ArrayBuffer(46));
+cen.setUint32(0, 0x02014b50, true); cen.setUint16(4, 20, true); cen.setUint16(6, 20, true); cen.setUint16(8, 0x0800, true);
+cen.setUint16(10, 0, true); cen.setUint16(12, dosTime, true); cen.setUint16(14, dosDate, true);
+cen.setUint32(16, crc, true); cen.setUint32(20, data.length, true); cen.setUint32(24, data.length, true);
+cen.setUint16(28, name.length, true); cen.setUint32(42, offset, true);
+centrals.push(new Uint8Array(cen.buffer), name);
+offset += 30 + name.length + data.length;
+}
+const cenSize = centrals.reduce((s, a) => s + a.length, 0);
+const end = new DataView(new ArrayBuffer(22));
+end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true);
+end.setUint32(12, cenSize, true); end.setUint32(16, offset, true);
+const parts = [...locals, ...centrals, new Uint8Array(end.buffer)];
+const out = new Uint8Array(parts.reduce((s, a) => s + a.length, 0));
+let p = 0;
+for (const a of parts) { out.set(a, p); p += a.length; }
+return out;
+}
+return { spreadsheet, normFiles, fitFileName, fitFiles, fitLegend, summaryRows, summaryCsv, crc32, zip };
+})();
+const __graph_js = (() => {
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const PLOT_CSS = `
+svg.plot { display: block; user-select: none; touch-action: none; font-family: "Segoe UI", "Malgun Gothic", Arial, sans-serif; }
+.p-bg { fill: #fff; }
+.p-frame { fill: none; stroke: #222; stroke-width: 1; }
+.p-axis line { stroke: #222; }
+.p-axis text { font-size: 12px; fill: #222; }
+.p-label { font-size: 13px; fill: #222; }
+.p-title { font-size: 15px; font-weight: 600; fill: #111; }
+.p-line { fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.p-marker { fill: #fff; stroke-width: 1.6; }
+.p-cursor line { stroke-width: 1.2; }
+.p-cursor .p-cursor-hit { stroke: transparent; stroke-width: 12; cursor: ew-resize; }
+.p-cursor-label { font-size: 12px; font-weight: 600; }
+.p-legend-box { fill: #fff; fill-opacity: .92; stroke: #bbb; }
+.p-legend text { font-size: 12px; fill: #222; }
+.p-zoombox { fill: rgba(31, 119, 180, .12); stroke: #1f77b4; stroke-dasharray: 3 2; }
+`;
+function ensureCss() {
+if (typeof document === 'undefined' || document.getElementById('plot-css')) return;
+const s = document.createElement('style');
+s.id = 'plot-css';
+s.textContent = PLOT_CSS;
+document.head.appendChild(s);
+}
+function el(tag, attrs = {}, parent) {
+const e = document.createElementNS(SVG_NS, tag);
+for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+if (parent) parent.appendChild(e);
+return e;
+}
+function niceStep(span, target) {
+const raw = span / Math.max(1, target);
+const p = 10 ** Math.floor(Math.log10(raw));
+const f = raw / p;
+return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * p;
+}
+function ticks(lo, hi, target) {
+if (!(hi > lo)) return [lo];
+const step = niceStep(hi - lo, target);
+const out = [];
+for (let v = Math.ceil(lo / step - 1e-9) * step; v <= hi + step * 1e-9; v += step) out.push(Math.abs(v) < step * 1e-9 ? 0 : v);
+return out;
+}
+function axisScale(lo, hi) {
+const m = Math.max(Math.abs(lo), Math.abs(hi));
+if (!(m > 0)) return 0;
+const e = Math.floor(Math.log10(m));
+return e < -2 || e > 4 ? e : 0;
+}
+const SUP = { '-': '⁻', 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
+const scaleText = e => `×10${String(e).replace(/./g, c => SUP[c])}`;
+function tickLabel(v, step, exp = 0) {
+const k = 10 ** exp, d = Math.max(0, -Math.floor(Math.log10(step / k) + 1e-9));
+const s = (v / k).toFixed(Math.min(d, 6));
+return Number(s) === 0 ? s.replace('-', '') : s;
+}
+function extent(series, key) {
+let lo = Infinity, hi = -Infinity;
+for (const s of series) for (const v of s[key]) if (Number.isFinite(v)) { if (v < lo) lo = v; if (v > hi) hi = v; }
+if (lo === Infinity) return [0, 1];
+if (lo === hi) { const d = Math.abs(lo) * 0.1 || 1; return [lo - d, hi + d]; }
+return [lo, hi];
+}
+function decimate(xs, ys, x0, x1, px) {
+const n = xs.length;
+if (n <= px * 4) return [xs, ys];
+const ox = [], oy = [];
+let col = -1, mnI = -1, mxI = -1;
+const flush = () => {
+if (mnI < 0) return;
+const a = Math.min(mnI, mxI), b = Math.max(mnI, mxI);
+ox.push(xs[a]); oy.push(ys[a]);
+if (b !== a) { ox.push(xs[b]); oy.push(ys[b]); }
+};
+for (let i = 0; i < n; i++) {
+const c = Math.floor((xs[i] - x0) / (x1 - x0) * px);
+if (c !== col) { flush(); col = c; mnI = mxI = i; continue; }
+if (ys[i] < ys[mnI]) mnI = i;
+if (ys[i] > ys[mxI]) mxI = i;
+}
+flush();
+return [ox, oy];
+}
+class Plot {
+constructor(container, opts = {}) {
+ensureCss();
+this.c = container;
+this.o = { xTicks: 8, yTicks: 6, ...opts };
+this.series = [];
+this.cursors = [];
+this.view = null;           // zoom window {x0,x1,y0,y1}; null = autoscale
+this.fixed = opts.fixed || null;
+this.mode = 'cursor';
+this.onCursor = null;       // (id, x) => void, during drag
+this.onCursorEnd = null;    // (id, x) => void, on release
+this.svg = el('svg', { class: 'plot', role: 'img' }, container);
+this.svg.addEventListener('pointerdown', e => this._down(e));
+this.svg.addEventListener('dblclick', () => { this.view = null; this.render(); });
+new ResizeObserver(() => this.render()).observe(container);
+}
+setSeries(series) { this.series = series; this.render(); }
+setCursors(cursors) { this.cursors = cursors; this.render(); }
+setTitle(t) { this.o.title = t; this.render(); }
+setMode(m) { this.mode = m; this.svg.style.cursor = m === 'zoom' ? 'zoom-in' : ''; }
+resetZoom() { this.view = null; this.render(); }
+toSVG() {
+const svg = this.svg.cloneNode(true);
+svg.setAttribute('xmlns', SVG_NS);
+svg.querySelectorAll('.p-cursor-hit, .p-zoombox').forEach(e => e.remove());
+const style = document.createElementNS(SVG_NS, 'style');
+style.textContent = PLOT_CSS;
+svg.insertBefore(style, svg.firstChild);
+const bg = document.createElementNS(SVG_NS, 'rect');
+bg.setAttribute('class', 'p-bg');
+bg.setAttribute('width', '100%');
+bg.setAttribute('height', '100%');
+svg.insertBefore(bg, style.nextSibling);
+return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(svg);
+}
+toCanvas(scale = 2) {
+const W = +this.svg.getAttribute('width'), H = +this.svg.getAttribute('height');
+const url = URL.createObjectURL(new Blob([this.toSVG()], { type: 'image/svg+xml' }));
+return new Promise((resolve, reject) => {
+const img = new Image();
+img.onload = () => {
+const cv = document.createElement('canvas');
+cv.width = Math.round(W * scale); cv.height = Math.round(H * scale);
+const ctx = cv.getContext('2d');
+ctx.drawImage(img, 0, 0, cv.width, cv.height);
+URL.revokeObjectURL(url);
+resolve(cv);
+};
+img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('SVG rendering failed')); };
+img.src = url;
+});
+}
+async toPNG(scale = 2) {
+const cv = await this.toCanvas(scale);
+return new Promise((resolve, reject) => cv.toBlob(b => (b ? resolve(b) : reject(new Error('PNG encoding failed'))), 'image/png'));
+}
+_domain() {
+if (this.view) return this.view;
+const [x0, x1] = this.fixed?.x || extent(this.series, 'x');
+const [y0, y1] = this.fixed?.y || extent(this.series, 'y');
+const pad = this.fixed?.y ? 0 : (y1 - y0) * 0.04;
+return { x0, x1, y0: y0 - pad, y1: y1 + pad };
+}
+render() {
+const W = this.c.clientWidth, H = this.c.clientHeight;
+if (!W || !H) return;
+const svg = this.svg;
+svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+svg.setAttribute('width', W);
+svg.setAttribute('height', H);
+svg.replaceChildren();
+if (this.o.hideEmpty && !this.series.length) return;
+const m = { l: 58, r: 16, t: this.o.title ? 32 : 12, b: 42, ...this.o.margin };
+const pw = Math.max(10, W - m.l - m.r), ph = Math.max(10, H - m.t - m.b);
+const d = this._domain();
+this.geom = { m, pw, ph, d };
+const sx = v => m.l + (v - d.x0) / (d.x1 - d.x0) * pw;
+const sy = v => m.t + ph - (v - d.y0) / (d.y1 - d.y0) * ph;
+this.sx = sx; this.sy = sy;
+if (this.o.title) el('text', { x: m.l + pw / 2, y: 21, class: 'p-title', 'text-anchor': 'middle' }, svg).textContent = this.o.title;
+el('rect', { x: m.l, y: m.t, width: pw, height: ph, class: 'p-frame' }, svg);
+const g = el('g', { class: 'p-axis' }, svg);
+const xt = ticks(d.x0, d.x1, this.o.xTicks), yt = ticks(d.y0, d.y1, this.o.yTicks);
+const xe = axisScale(d.x0, d.x1), ye = axisScale(d.y0, d.y1);
+const xstep = xt.length > 1 ? xt[1] - xt[0] : 1, ystep = yt.length > 1 ? yt[1] - yt[0] : 1;
+for (const v of xt) {
+const x = sx(v);
+el('line', { x1: x, x2: x, y1: m.t + ph, y2: m.t + ph - 5 }, g);
+el('text', { x, y: m.t + ph + 16, 'text-anchor': 'middle' }, g).textContent = tickLabel(v, xstep, xe);
+}
+for (const v of yt) {
+const y = sy(v);
+el('line', { x1: m.l, x2: m.l + 5, y1: y, y2: y }, g);
+el('text', { x: m.l - 6, y: y + 4, 'text-anchor': 'end' }, g).textContent = tickLabel(v, ystep, ye);
+}
+const withScale = (t, e) => (e ? `${t}  (${scaleText(e)})` : t);
+if (this.o.xlabel) el('text', { x: m.l + pw / 2, y: H - 7, 'text-anchor': 'middle', class: 'p-label' }, svg).textContent = withScale(this.o.xlabel, xe);
+if (this.o.ylabel) {
+el('text', { x: 0, y: 0, 'text-anchor': 'middle', class: 'p-label', transform: `translate(15 ${m.t + ph / 2}) rotate(-90)` }, svg).textContent = withScale(this.o.ylabel, ye);
+}
+const clipId = 'clip' + Math.random().toString(36).slice(2);
+el('rect', { x: m.l, y: m.t, width: pw, height: ph }, el('clipPath', { id: clipId }, el('defs', {}, svg)));
+const data = el('g', { 'clip-path': `url(#${clipId})` }, svg);
+for (const s of this.series) {
+if (s.line !== false && s.x.length > 1) {
+const [xs, ys] = decimate(s.x, s.y, d.x0, d.x1, pw);
+let p = '';
+for (let i = 0; i < xs.length; i++) if (Number.isFinite(ys[i])) p += `${p ? 'L' : 'M'}${sx(xs[i]).toFixed(1)},${sy(ys[i]).toFixed(1)}`;
+el('path', { d: p, class: 'p-line', stroke: s.color, 'stroke-width': s.width || 1.2 }, data);
+}
+if (s.marker) for (let i = 0; i < s.x.length; i++) {
+el('circle', { cx: sx(s.x[i]), cy: sy(s.y[i]), r: 4.5, class: 'p-marker', stroke: s.color }, data);
+}
+}
+for (const c of this.cursors) {
+if (!Number.isFinite(c.x)) continue;
+const x = sx(c.x);
+const cg = el('g', { class: 'p-cursor', 'data-id': c.id }, svg);
+el('line', { x1: x, x2: x, y1: m.t, y2: m.t + ph, stroke: c.color }, cg);
+el('line', { x1: x, x2: x, y1: m.t, y2: m.t + ph, class: 'p-cursor-hit' }, cg);
+if (c.label) el('text', { x, y: m.t - 6, fill: c.color, 'text-anchor': 'middle', class: 'p-cursor-label' }, cg).textContent = c.label;
+}
+if (this.o.legend && this.series.some(s => s.legend)) {
+const items = this.series.filter(s => s.legend);
+const lg = el('g', { class: 'p-legend' }, svg);
+const lh = 18, lw = Math.min(pw - 12, 320);
+const x0 = m.l + pw - lw - 6, y0 = m.t + 6;
+el('rect', { x: x0, y: y0, width: lw, height: items.length * lh + 6, class: 'p-legend-box' }, lg);
+items.forEach((s, i) => {
+const y = y0 + 12 + i * lh;
+el('line', { x1: x0 + 6, x2: x0 + 28, y1: y, y2: y, stroke: s.color, 'stroke-width': 2 }, lg);
+el('text', { x: x0 + 34, y: y + 4 }, lg).textContent = s.legend;
+});
+}
+}
+_toData(e) {
+const r = this.svg.getBoundingClientRect();
+const { m, pw, ph, d } = this.geom;
+const px = e.clientX - r.left, py = e.clientY - r.top;
+return { px, py, x: d.x0 + (px - m.l) / pw * (d.x1 - d.x0), y: d.y0 + (m.t + ph - py) / ph * (d.y1 - d.y0) };
+}
+_down(e) {
+if (!this.geom) return;
+const cg = e.target.closest('.p-cursor');
+if (this.mode === 'cursor' && cg) {
+const id = cg.getAttribute('data-id');
+const cur = this.cursors.find(c => String(c.id) === id);
+if (!cur || cur.draggable === false) return;
+e.preventDefault();
+this.svg.setPointerCapture(e.pointerId);
+const move = ev => {
+cur.x = this._toData(ev).x;
+this.render();
+this.onCursor?.(cur.id, cur.x);
+};
+const up = () => {
+this.svg.removeEventListener('pointermove', move);
+this.svg.removeEventListener('pointerup', up);
+this.onCursorEnd?.(cur.id, cur.x);
+};
+this.svg.addEventListener('pointermove', move);
+this.svg.addEventListener('pointerup', up);
+return;
+}
+if (this.mode === 'zoom') {
+e.preventDefault();
+const a = this._toData(e);
+const box = el('rect', { class: 'p-zoombox' }, this.svg);
+this.svg.setPointerCapture(e.pointerId);
+const move = ev => {
+const b = this._toData(ev);
+box.setAttribute('x', Math.min(a.px, b.px)); box.setAttribute('y', Math.min(a.py, b.py));
+box.setAttribute('width', Math.abs(b.px - a.px)); box.setAttribute('height', Math.abs(b.py - a.py));
+};
+const up = ev => {
+this.svg.removeEventListener('pointermove', move);
+this.svg.removeEventListener('pointerup', up);
+const b = this._toData(ev);
+box.remove();
+if (Math.abs(b.px - a.px) > 5 && Math.abs(b.py - a.py) > 5) {
+this.view = { x0: Math.min(a.x, b.x), x1: Math.max(a.x, b.x), y0: Math.min(a.y, b.y), y1: Math.max(a.y, b.y) };
+this.render();
+}
+};
+this.svg.addEventListener('pointermove', move);
+this.svg.addEventListener('pointerup', up);
+}
+}
+}
+return { PLOT_CSS, ticks, axisScale, scaleText, tickLabel, extent, decimate, Plot };
+})();
+const __pdf_js = (() => {
+const { ticks, tickLabel, axisScale, scaleText, extent, decimate } = __graph_js;
+const PDF_PAGE = { w: 574, h: 420 };
+const FONT = { tick: 12, label: 14, title: 14, legend: 11 };
+const HELV = [278, 278, 355, 556, 556, 889, 667, 191, 333, 333, 389, 584, 278, 333, 278, 278,
+556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 278, 278, 584, 584, 584, 556,
+1015, 667, 667, 722, 722, 667, 611, 778, 722, 278, 500, 667, 556, 833, 722, 778,
+667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 278, 278, 278, 469, 556,
+333, 556, 556, 500, 556, 556, 278, 556, 556, 222, 222, 500, 222, 833, 556, 556,
+556, 556, 333, 500, 278, 556, 500, 722, 500, 500, 500, 334, 260, 334, 584];
+const HELV_HI = { 0xb0: 400, 0xb1: 584, 0xb2: 333, 0xb3: 333, 0xb5: 556, 0xd7: 584 };
+const SYMBOL = { 'α': [0x61, 631], 'θ': [0x71, 521] };
+const SUPER = { '⁻': '-', '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9' };
+function textRuns(str, size) {
+const runs = [];
+const add = (font, sz, rise, code, w) => {
+let r = runs[runs.length - 1];
+if (!r || r.font !== font || r.size !== sz || r.rise !== rise) runs.push(r = { font, size: sz, rise, codes: [], width: 0 });
+r.codes.push(code);
+r.width += w * sz / 1000;
+};
+for (const ch of str) {
+if (SYMBOL[ch]) { add('F2', size, 0, ...SYMBOL[ch]); continue; }
+const sup = SUPER[ch];
+const c = (sup ?? (ch === '−' ? '-' : ch)).codePointAt(0);
+const sz = sup ? size * 0.7 : size, rise = sup ? size * 0.4 : 0;
+if (c >= 32 && c <= 126) add('F1', sz, rise, c, HELV[c - 32]);
+else if (c >= 0xa0 && c <= 0xff) add('F1', sz, rise, c, HELV_HI[c] ?? 556);
+else add('F1', sz, rise, 63, HELV[63 - 32]);
+}
+return runs;
+}
+const textWidth = (str, size) => textRuns(str, size).reduce((s, r) => s + r.width, 0);
+const num = v => (Math.round(v * 100) / 100).toString();
+const pdfString = codes => '(' + codes.map(c => (c === 40 || c === 41 || c === 92 ? '\\' + String.fromCharCode(c)
+: c < 32 || c > 126 ? '\\' + c.toString(8).padStart(3, '0') : String.fromCharCode(c))).join('') + ')';
+function rgb(hex) {
+const v = parseInt(hex.replace('#', ''), 16);
+return [(v >> 16) & 255, (v >> 8) & 255, v & 255].map(c => num(c / 255)).join(' ');
+}
+function pageContent(pg, size = PDF_PAGE) {
+const H = size.h;
+const out = [];
+const Y = y => num(H - y);
+const text = (str, x, y, sz, align = 'left', rotate = false) => {
+const runs = textRuns(str, sz);
+const w = runs.reduce((s, r) => s + r.width, 0);
+const shift = align === 'center' ? w / 2 : align === 'right' ? w : 0;
+const tm = rotate ? `0 1 -1 0 ${num(x)} ${num(H - y - shift)} Tm` : `1 0 0 1 ${num(x - shift)} ${Y(y)} Tm`;
+out.push(`BT ${tm} ` + runs.map(r => `/${r.font} ${num(r.size)} Tf ${num(r.rise)} Ts ${pdfString(r.codes)} Tj`).join(' ') + ' ET');
+};
+const circle = (cx, cy, r) => {
+const k = 0.5523 * r, y = H - cy;
+return `${num(cx + r)} ${num(y)} m ${num(cx + r)} ${num(y + k)} ${num(cx + k)} ${num(y + r)} ${num(cx)} ${num(y + r)} c `
++ `${num(cx - k)} ${num(y + r)} ${num(cx - r)} ${num(y + k)} ${num(cx - r)} ${num(y)} c `
++ `${num(cx - r)} ${num(y - k)} ${num(cx - k)} ${num(y - r)} ${num(cx)} ${num(y - r)} c `
++ `${num(cx + k)} ${num(y - r)} ${num(cx + r)} ${num(y - k)} ${num(cx + r)} ${num(y)} c`;
+};
+const series = pg.series || [];
+const [x0, x1] = pg.fixed?.x || extent(series, 'x');
+const [ya, yb] = extent(series, 'y');
+const pad = (yb - ya) * 0.04;
+const d = { x0, x1, y0: ya - pad, y1: yb + pad };
+const m = { l: 72, r: 24, t: pg.title ? 34 : 18, b: 58 };
+const pw = size.w - m.l - m.r, ph = H - m.t - m.b;
+const sx = v => m.l + (v - d.x0) / (d.x1 - d.x0) * pw;
+const sy = v => m.t + ph - (v - d.y0) / (d.y1 - d.y0) * ph;
+out.push('1 J 1 j 0 0 0 RG 0 0 0 rg');
+if (pg.title) text(pg.title, m.l + pw / 2, 22, FONT.title, 'center');
+out.push(`q ${num(m.l)} ${Y(m.t + ph)} ${num(pw)} ${num(ph)} re W n`);
+for (const s of series) {
+if (s.line !== false && s.x.length > 1) {
+const [xs, ys] = decimate(s.x, s.y, d.x0, d.x1, pw * 2);
+let p = '', first = true;
+for (let i = 0; i < xs.length; i++) {
+if (!Number.isFinite(ys[i])) continue;
+p += `${num(sx(xs[i]))} ${Y(sy(ys[i]))} ${first ? 'm' : 'l'} `;
+first = false;
+}
+if (p) out.push(`${rgb(s.color)} RG ${num(s.width || 1)} w ${p}S`);
+}
+if (s.marker) {
+out.push(`${rgb(s.color)} RG 1 1 1 rg 1.5 w`);
+for (let i = 0; i < s.x.length; i++) if (Number.isFinite(s.y[i])) out.push(`${circle(sx(s.x[i]), sy(s.y[i]), 3.6)} B`);
+}
+}
+out.push('Q');
+out.push(`0 0 0 RG 0 0 0 rg 0.8 w ${num(m.l)} ${Y(m.t + ph)} ${num(pw)} ${num(ph)} re S`);
+const xt = ticks(d.x0, d.x1, pg.xTicks || 8), yt = ticks(d.y0, d.y1, pg.yTicks || 6);
+const xe = axisScale(d.x0, d.x1), ye = axisScale(d.y0, d.y1);
+const xstep = xt.length > 1 ? xt[1] - xt[0] : 1, ystep = yt.length > 1 ? yt[1] - yt[0] : 1;
+let tk = '';
+for (const v of xt) tk += `${num(sx(v))} ${Y(m.t + ph)} m ${num(sx(v))} ${Y(m.t + ph - 4)} l `;
+for (const v of yt) tk += `${num(m.l)} ${Y(sy(v))} m ${num(m.l + 4)} ${Y(sy(v))} l `;
+out.push(tk + 'S');
+for (const v of xt) text(tickLabel(v, xstep, xe), sx(v), m.t + ph + 15, FONT.tick, 'center');
+for (const v of yt) text(tickLabel(v, ystep, ye), m.l - 5, sy(v) + 4, FONT.tick, 'right');
+const withScale = (t, e) => (e ? `${t}  (${scaleText(e)})` : t);
+if (pg.xlabel) text(withScale(pg.xlabel, xe), m.l + pw / 2, m.t + ph + 38, FONT.label, 'center');
+if (pg.ylabel) text(withScale(pg.ylabel, ye), 26, m.t + ph / 2, FONT.label, 'center', true);
+const items = pg.legend ? series.filter(s => s.legend) : [];
+if (items.length) {
+const lh = 15, tw = Math.max(...items.map(s => textWidth(s.legend, FONT.legend)));
+const lw = tw + 42, bx = m.l + pw - lw - 8, by = m.t + 8;
+out.push(`1 1 1 rg 0 0 0 RG 0.6 w ${num(bx)} ${Y(by + items.length * lh + 8)} ${num(lw)} ${num(items.length * lh + 8)} re B`);
+items.forEach((s, i) => {
+const y = by + 4 + lh / 2 + i * lh;
+out.push(`${rgb(s.color)} RG ${num(Math.max(1.5, s.width || 1))} w ${num(bx + 8)} ${Y(y)} m ${num(bx + 30)} ${Y(y)} l S`);
+out.push('0 0 0 rg');
+text(s.legend, bx + 36, y + 4, FONT.legend);
+});
+}
+return out.join('\n');
+}
+async function deflate(bytes) {
+const stream = new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate'));
+return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+async function plotsPdf(pages, size = PDF_PAGE) {
+const enc = new TextEncoder();
+const parts = [], offsets = [];
+let pos = 0;
+const put = x => { const b = typeof x === 'string' ? enc.encode(x) : x; parts.push(b); pos += b.length; };
+const obj = (n, body, stream) => {
+offsets[n] = pos;
+put(`${n} 0 obj\n${body}\n`);
+if (stream) { put('stream\n'); put(stream); put('\nendstream\n'); }
+put('endobj\n');
+};
+put('%PDF-1.4\n');
+put(new Uint8Array([0x25, 0xe2, 0xe3, 0xcf, 0xd3, 0x0a]));   // binary marker comment
+const first = 6;   // 1 catalog, 2 pages, 3 resources, 4-5 fonts
+obj(1, '<< /Type /Catalog /Pages 2 0 R >>');
+obj(2, `<< /Type /Pages /Kids [${pages.map((_, i) => `${first + 2 * i} 0 R`).join(' ')}] /Count ${pages.length} >>`);
+obj(3, '<< /Font << /F1 4 0 R /F2 5 0 R >> /ProcSet [/PDF /Text] >>');
+obj(4, '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+obj(5, '<< /Type /Font /Subtype /Type1 /BaseFont /Symbol >>');
+for (let i = 0; i < pages.length; i++) {
+const n = first + 2 * i;
+const content = await deflate(enc.encode(pageContent(pages[i], size)));
+obj(n, `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${size.w} ${size.h}] /Resources 3 0 R /Contents ${n + 1} 0 R >>`);
+obj(n + 1, `<< /Length ${content.length} /Filter /FlateDecode >>`, content);
+}
+const nObj = first + 2 * pages.length;
+const xref = pos;
+put(`xref\n0 ${nObj}\n0000000000 65535 f \n`);
+for (let n = 1; n < nObj; n++) put(`${String(offsets[n]).padStart(10, '0')} 00000 n \n`);
+put(`trailer\n<< /Size ${nObj} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`);
+const out = new Uint8Array(pos);
+let p = 0;
+for (const a of parts) { out.set(a, p); p += a.length; }
+return out;
+}
+return { PDF_PAGE, textRuns, textWidth, pageContent, deflate, plotsPdf };
+})();
+const __i18n_js = (() => {
+const TEXT = {
+ko: {
+'menu.tools': '도구(T)',
+'menu.saveSettings': '설정 저장 (JSON)',
+'menu.loadSettings': '설정 불러오기 (JSON)',
+'menu.summary': '결과 요약표',
+'tree.all': '모두 선택', 'tree.none': '모두 해제',
+'tree.drop': '폴더나 파일을 여기로 끌어다 놓거나, 위의 폴더 버튼을 누르세요.',
+'drop.here': '여기에 놓으면 불러옵니다',
+'manual.title': '사용법',
+'manual.body': `<ol>
+<li>Beam Line, File Structure, Decimal Mark를 데이터 형식에 맞게 고릅니다.</li>
+<li>Data Load의 폴더 버튼으로 데이터 폴더를 열거나, 폴더·파일을 창에 끌어다 놓습니다. Files in Directory에서 파일을 체크합니다. Angle Depending Selection이 켜져 있으면 같은 실험명(<code>&lt;실험명&gt;A&lt;각도&gt;</code>)의 파일이 함께 선택됩니다. "모두 선택"은 모든 파일을 한 번에 선택합니다(일괄 처리).</li>
+<li>필요하면 Plot Filter, Photon Energy Calibration을 설정합니다. Target은 커서를 표시할 그래프(TEY/PEY)입니다.</li>
+<li>그래프의 FROM / TO / END 커서(또는 숫자 입력)로 배경 범위를 정하고 Apply를 누릅니다. 모든 샘플에 적용됩니다.</li>
+<li>R 커서로 공명 에너지를 정하고 Orbital, Beam Line(P)을 고른 뒤 Print the Estimations를 누릅니다.</li>
+<li>Export 버튼으로 결과를 저장합니다. 단계 버튼을 다시 누르면 그 단계가 해제됩니다.</li>
+<li>도구 메뉴: 설정 저장/불러오기, 결과 요약표(α, DR, CSV).</li>
+</ol>`,
+'info.title': '정보',
+'info.body': '<p>Beagle: PAL 4D / 10A2 빔라인 NEXAFS 분석 소프트웨어.</p><p>인용: Park et al., <i>J. Synchrotron Rad.</i> <b>31</b>(1) (2024). <a href="https://doi.org/10.1107/S1600577523008755" target="_blank" rel="noopener">doi:10.1107/S1600577523008755</a></p>',
+'software.title': '소프트웨어',
+'software.body': '모든 계산은 브라우저 안에서만 수행되며 데이터는 외부로 전송되지 않습니다.',
+'export.title': '내보내기',
+'summary.title': '결과 요약표',
+'summary.empty': 'Print the Estimations를 먼저 누르세요.',
+'summary.csv': 'CSV 저장',
+'summary.cols': ['샘플', '공명 E (eV)', '모드', 'α (°)', 'DR'],
+'msg.files': '{n}개 파일, {s}개 샘플',
+'msg.loadFirst': '먼저 데이터를 불러오세요',
+'msg.calibrated': 'Carbon 보정: Δ = {list} eV',
+'msg.calFailed': '보정 실패: {e}',
+'msg.applied': '배경 보정 완료',
+'msg.normInvalid': '경고: End 위치의 값이 0이어서 정규화 결과가 Inf/NaN입니다 ({list}). End를 데이터 범위 안의 다른 값으로 바꾸세요.',
+'msg.applyReleased': 'Apply 해제',
+'msg.applyFailed': 'Apply 실패: {e}',
+'msg.estimated': '계산 완료',
+'msg.estReleased': 'Print the Estimations 해제',
+'msg.saved': '{dir}/save/ 에 {n}개 파일(PDF 포함)을 저장했습니다.',
+'msg.exporting': '저장 중…',
+'msg.zip': 'save.zip ({n}개 파일, PDF 포함)을 다운로드했습니다.',
+'msg.exportCanceled': '내보내기 취소',
+'msg.exportFailed': '내보내기 실패: {e}',
+'msg.settingsSaved': '설정 저장: beagle-settings.json',
+'msg.settingsLoaded': '설정 불러옴{ignored}',
+'msg.settingsFailed': '설정 불러오기 실패: {e}',
+'msg.dropped': '{n}개 파일 불러옴',
+},
+en: {
+'menu.tools': 'Tools(T)',
+'menu.saveSettings': 'Save settings (JSON)',
+'menu.loadSettings': 'Load settings (JSON)',
+'menu.summary': 'Summary table',
+'tree.all': 'Select all', 'tree.none': 'Clear',
+'tree.drop': 'Drop folders or files here, or use the folder button above.',
+'drop.here': 'Drop to load',
+'manual.title': 'Manual',
+'manual.body': `<ol>
+<li>Choose Beam Line, File Structure and Decimal Mark for your data.</li>
+<li>Open the data folder with the Data Load folder button, or drop folders/files onto the window. Check files in Files in Directory. With Angle Depending Selection on, files of the same experiment (<code>&lt;name&gt;A&lt;angle&gt;</code>) are selected together. "Select all" selects every file (batch processing).</li>
+<li>Set Plot Filter and Photon Energy Calibration if needed. Target is the graph (TEY/PEY) that shows the cursors.</li>
+<li>Set the background range with the FROM / TO / END cursors (or the numbers) and press Apply. It applies to every sample.</li>
+<li>Place the R cursors on the resonances, choose Orbital and Beam Line (P), and press Print the Estimations.</li>
+<li>Save results with the Export buttons. Pressing a step button again releases that step.</li>
+<li>Tools menu: save/load settings, summary table (α, DR, CSV).</li>
+</ol>`,
+'info.title': 'Information',
+'info.body': '<p>Beagle: NEXAFS data analysis software for PAL 4D / 10A2 beamlines.</p><p>Please cite: Park et al., <i>J. Synchrotron Rad.</i> <b>31</b>(1) (2024). <a href="https://doi.org/10.1107/S1600577523008755" target="_blank" rel="noopener">doi:10.1107/S1600577523008755</a></p>',
+'software.title': 'Software',
+'software.body': 'All calculations run inside the browser; no data leaves this computer.',
+'export.title': 'Export',
+'summary.title': 'Summary table',
+'summary.empty': 'Press Print the Estimations first.',
+'summary.csv': 'Save CSV',
+'summary.cols': ['Sample', 'Resonance (eV)', 'Mode', 'α (°)', 'DR'],
+'msg.files': '{n} files, {s} samples',
+'msg.loadFirst': 'Load data first',
+'msg.calibrated': 'Carbon calibration: Δ = {list} eV',
+'msg.calFailed': 'Calibration failed: {e}',
+'msg.applied': 'Background corrected',
+'msg.normInvalid': 'Warning: the value at End is 0, so the normalized spectra are Inf/NaN ({list}). Choose another End inside the data range.',
+'msg.applyReleased': 'Apply released',
+'msg.applyFailed': 'Apply failed: {e}',
+'msg.estimated': 'Estimated',
+'msg.estReleased': 'Estimations released',
+'msg.saved': '{n} files (including the PDFs) saved to {dir}/save/.',
+'msg.exporting': 'Saving…',
+'msg.zip': 'save.zip ({n} files, including the PDFs) downloaded.',
+'msg.exportCanceled': 'Export canceled',
+'msg.exportFailed': 'Export failed: {e}',
+'msg.settingsSaved': 'Settings saved: beagle-settings.json',
+'msg.settingsLoaded': 'Settings loaded{ignored}',
+'msg.settingsFailed': 'Could not load settings: {e}',
+'msg.dropped': '{n} files loaded',
+},
+};
+let lang = 'en';
+function setLang(l) { lang = TEXT[l] ? l : 'en'; return lang; }
+function getLang() { return lang; }
+function t(key, params = {}) {
+const v = TEXT[lang][key] ?? TEXT.en[key] ?? key;
+return typeof v === 'string' ? v.replace(/\{(\w+)\}/g, (_, k) => params[k] ?? '') : v;
+}
+function applyText(root) {
+for (const el of root.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n);
+for (const el of root.querySelectorAll('[data-i18n-html]')) el.innerHTML = t(el.dataset.i18nHtml);
+}
+return { TEXT, setLang, getLang, t, applyText };
+})();
+const __settings_js = (() => {
+const SETTINGS_VERSION = 1;
+const SPEC = {
+beamline: ['string', v => ['4D', '10A2'].includes(v)],
+decimal: ['string', v => ['dot', 'comma'].includes(v)],
+columns: ['object', v => ['energy', 'tey', 'pey', 'mesh'].every(k => Number.isInteger(v[k]) && v[k] >= 1)],
+factor: ['number', v => v >= 0 && v <= 0.5],
+angleDep: ['boolean'],
+target: ['string', v => ['tey', 'pey'].includes(v)],
+calElement: ['string', v => ['carbon', 'atomic'].includes(v)],
+shift: ['number'],
+from: ['number'],
+to: ['number'],
+end: ['number'],
+res: ['object', v => Array.isArray(v) && v.length >= 1 && v.every(Number.isFinite)],
+orbital: ['string', v => ['Vector', 'Plane'].includes(v)],
+magnet: ['string', v => ['bending', 'undulator', 'other'].includes(v)],
+pOther: ['number', v => v > 0],
+};
+function settingsToJSON(s) {
+const out = { app: 'Beagle web', version: SETTINGS_VERSION };
+for (const k of Object.keys(SPEC)) out[k] = s[k];
+return JSON.stringify(out, null, 2) + '\n';
+}
+function parseSettings(text) {
+let obj;
+try { obj = JSON.parse(text); } catch { throw new Error('not a JSON file'); }
+if (!obj || typeof obj !== 'object' || obj.app !== 'Beagle web') throw new Error('not a Beagle settings file');
+const settings = {}, ignored = [];
+for (const [k, v] of Object.entries(obj)) {
+if (k === 'app' || k === 'version') continue;
+const spec = SPEC[k];
+if (!spec) { ignored.push(k); continue; }
+const [type, check] = spec;
+if (typeof v !== type || v === null || (type === 'number' && !Number.isFinite(v)) || (check && !check(v))) throw new Error(`invalid value for "${k}"`);
+settings[k] = type === 'object' ? JSON.parse(JSON.stringify(v)) : v;
+}
+return { settings, ignored };
+}
+return { SETTINGS_VERSION, settingsToJSON, parseSettings };
+})();
+const __app_js = (() => {
+const core = __core_js;
+const ex = __export_js;
+const { Plot } = __graph_js;
+const { plotsPdf } = __pdf_js;
+const { t, setLang, getLang, applyText } = __i18n_js;
+const { settingsToJSON, parseSettings } = __settings_js;
+const VERSION = '1.0.0';
+const $ = id => document.getElementById(id);
+const COLORS = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'];
+const C_FROM = '#1f5fbf', C_TO = '#d62728', C_END = '#222222', C_RES = '#d62728';
+const state = {
+files: new Map(),          // path -> {file: File, name, text?}
+rootName: '',
+checked: new Set(),
+angleDep: true,
+beamline: '4D',
+decimal: 'dot',
+columns: { energy: 1, tey: 2, pey: 3, mesh: 4 },
+factor: 0,
+target: 'tey',             // SpecSelec: graph that carries the cursors
+calElement: 'atomic',
+shift: 0,
+from: 280, to: 290, end: 310,
+res: [285.0],
+orbital: 'Vector',
+magnet: 'undulator',
+pOther: 1.0,
+origin: [],                // data_origin: [{key, files:[{name,x,tey,pey,mesh}]}]
+data: [],                  // data (after energy calibration)
+norm: [],                  // norm: snapshot made by Apply [{key, files:[{name,x,normTey,normPey}]}]
+showNorm: false,           // graphs show norm (true right after Apply)
+sampleIndex: 0,
+normalized: false,         // Apply button state
+estimated: false,          // Print the Estimations button state
+results: [],               // per resonance
+resIndex: 0,
+saveDir: null,             // FileSystemDirectoryHandle chosen for "save"
+};
+function status(msg, ok = false) {
+const s = $('status');
+s.textContent = msg || '';
+s.classList.toggle('ok', ok);
+}
+const RESULT_OPTS = { xlabel: 'cos² θ', ylabel: 'Intensity (a.u.)', xTicks: 5, yTicks: 6, legend: 'box', fixed: { x: [0, 1] } };
+const plots = {
+tey: new Plot($('pTey'), { xlabel: 'Photon Energy (eV)', ylabel: 'TEY Intensity (a. u.)', margin: { t: 24 } }),
+pey: new Plot($('pPey'), { xlabel: 'Photon Energy (eV)', ylabel: 'PEY Intensity (a. u.)', margin: { t: 24 } }),
+mesh: new Plot($('pMesh'), { xlabel: 'Photon Energy (eV)', ylabel: 'Mesh Current (pA)', margin: { t: 24 } }),
+rTey: new Plot($('rTey'), { ...RESULT_OPTS, hideEmpty: true }),
+rPey: new Plot($('rPey'), { ...RESULT_OPTS, hideEmpty: true }),
+};
+const PLOT_FILE = { tey: 'TEY', pey: 'PEY', mesh: 'MeshCurrent', rTey: 'FIT_TEY', rPey: 'FIT_PEY' };
+function download(name, blob) {
+const a = document.createElement('a');
+a.href = URL.createObjectURL(blob);
+a.download = name;
+document.body.appendChild(a);
+a.click();
+a.remove();
+setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+for (const box of document.querySelectorAll('.tools')) {
+const key = box.dataset.plot, p = plots[key];
+const mk = (label, title, fn) => {
+const b = document.createElement('button');
+b.type = 'button'; b.textContent = label; b.title = title;
+b.addEventListener('click', () => fn(b));
+box.appendChild(b);
+return b;
+};
+const cur = mk('+', 'Cursor', () => { p.setMode('cursor'); cur.classList.add('active'); zm.classList.remove('active'); });
+const zm = mk('⌕', 'Zoom (drag a box, double-click to reset)', () => { p.setMode('zoom'); zm.classList.add('active'); cur.classList.remove('active'); });
+mk('⟲', 'Reset zoom', () => p.resetZoom());
+mk('SVG', 'Save graph as SVG', () => download(`${PLOT_FILE[key]}.svg`, new Blob([p.toSVG()], { type: 'image/svg+xml' })));
+mk('PNG', 'Save graph as PNG', async () => download(`${PLOT_FILE[key]}.png`, await p.toPNG(2)));
+cur.classList.add('active');
+}
+function cursorDefs() {
+if (!state.normalized) {
+return [
+{ id: 'from', x: state.from, color: C_FROM, label: 'FROM' },
+{ id: 'to', x: state.to, color: C_TO, label: 'TO' },
+{ id: 'end', x: state.end, color: C_END, label: 'END' },
+];
+}
+return state.res.map((x, i) => ({ id: `r${i}`, x, color: C_RES, label: `R${i + 1}` }));
+}
+function onCursor(id, x) {
+if (id === 'from' || id === 'to' || id === 'end') {
+state[id] = x;
+$(id).value = x.toFixed(2);
+} else {
+const i = +id.slice(1);
+state.res[i] = x;
+const inp = document.querySelector(`#resList input[data-i="${i}"]`);
+if (inp) inp.value = x.toFixed(2);
+}
+}
+for (const p of [plots.tey, plots.pey]) p.onCursor = onCursor;
+function drawSpectra() {
+const s = state.data[state.sampleIndex];
+const n = s && state.showNorm ? state.norm.find(t => t.key === s.key) : null;
+const series = key => {
+if (!s) return [];
+return s.files.map((f, i) => {
+let x = f.x, y = f[key];
+if (n && key !== 'mesh' && n.files[i]) { x = n.files[i].x; y = key === 'tey' ? n.files[i].normTey : n.files[i].normPey; }
+return { x, y, color: COLORS[i % COLORS.length] };
+});
+};
+const o = s && state.origin.find(t => t.key === s.key);
+const xs = o ? o.files.flatMap(f => [f.x[0], f.x[f.x.length - 1]]) : [];
+const fixed = xs.length ? { x: [Math.min(...xs), Math.max(...xs)] } : null;
+for (const p of [plots.tey, plots.pey, plots.mesh]) p.fixed = fixed;
+plots.tey.setSeries(series('tey'));
+plots.pey.setSeries(series('pey'));
+plots.mesh.setSeries(series('mesh'));
+const cur = cursorDefs();
+plots.tey.setCursors(state.target === 'tey' ? cur : []);
+plots.pey.setCursors(state.target === 'pey' ? cur : []);
+plots.mesh.setCursors([]);
+}
+function resultSeries(r, mode) {
+const key = mode.toLowerCase();
+const series = [];
+r.samples.forEach((s, i) => {
+const color = COLORS[i % COLORS.length];
+const o = s[key];
+if (o) series.push({ x: o.fit.x, y: o.fit.y, color, width: 1.6, legend: ex.fitLegend(s.key, o) });
+series.push({ x: s.pts.map(p => p.cos2), y: s.pts.map(p => p[key]), color, line: false, marker: true });
+});
+return series;
+}
+const resultTitle = (r, mode) => `Resonance ${core.fmtF(r.R)} eV (P=${core.fmtF(r.P)}, ${mode}, ${r.orbital})`;
+function drawResults() {
+const r = state.estimated ? state.results[state.resIndex] : null;
+for (const [mode, plot] of [['TEY', plots.rTey], ['PEY', plots.rPey]]) {
+plot.o.title = r ? resultTitle(r, mode) : '';
+plot.setSeries(r ? resultSeries(r, mode) : []);
+}
+}
+function renderSampleList() {
+const sel = $('sampleSel');
+sel.replaceChildren(...state.data.map((s, i) => new Option(s.key, i)));
+if (state.sampleIndex >= state.data.length) state.sampleIndex = 0;
+sel.value = state.sampleIndex;
+const s = state.data[state.sampleIndex];
+$('fileLegend').replaceChildren(...(s ? s.files : []).map((f, i) => {
+const li = document.createElement('li');
+const sw = document.createElement('span');
+sw.className = 'sw'; sw.style.background = COLORS[i % COLORS.length];
+const nm = document.createElement('span');
+nm.className = 'nm'; nm.textContent = core.stripExt(f.name);
+li.append(sw, nm);
+return li;
+}));
+}
+function setStep(btn, on) { btn.classList.toggle('done', on); btn.setAttribute('aria-pressed', on); }
+async function reloadData() {
+const paths = [...state.checked].sort();
+const groups = new Map();
+const errors = [];
+for (const p of paths) {
+const f = state.files.get(p);
+try {
+if (f.text === undefined) f.text = await f.file.text();
+const s = core.loadSpectrum(f.text, { beamline: state.beamline, decimal: state.decimal, factor: state.factor, columns: state.columns });
+if (!s.x.length) throw new Error('no numeric rows');
+const key = core.sampleKey(f.name);
+if (!groups.has(key)) groups.set(key, []);
+groups.get(key).push({ name: f.name, ...s });
+} catch (e) {
+errors.push(`${f.name}: ${e.message}`);
+}
+}
+state.origin = [...groups.entries()].sort((a, b) => (a[0] < b[0] ? -1 : 1)).map(([key, files]) => ({ key, files }));
+state.data = state.origin;
+state.showNorm = false;
+renderSampleList();
+drawSpectra();
+if (errors.length) status(errors.join(' | '));
+else status(paths.length ? t('msg.files', { n: paths.length, s: state.origin.length }) : '', true);
+}
+function calibrate(moveCursors = true) {
+if (state.calElement !== 'carbon') { applyShift(); return; }
+state.showNorm = false;
+if (state.origin.length) {
+try {
+const { samples, cursorDelta } = core.calibrateCarbon(state.origin.map(s => s.files));
+state.data = state.origin.map((s, i) => ({ key: s.key, files: samples[i] }));
+if (moveCursors) for (const k of ['from', 'to', 'end']) { state[k] += cursorDelta; $(k).value = state[k].toFixed(2); }
+status(t('msg.calibrated', { list: state.data.flatMap(s => s.files.map(f => `${core.stripExt(f.name)} ${f.delta.toFixed(3)}`)).join(', ') }), true);
+} catch (e) {
+status(t('msg.calFailed', { e: e.message }));
+}
+}
+drawSpectra();
+}
+function applyShift() {
+state.showNorm = false;
+state.data = state.origin.map(s => ({ key: s.key, files: s.files.map(f => ({ ...core.applyShift(f, state.shift), name: f.name })) }));
+drawSpectra();
+}
+function applyNormalization() {
+if (state.normalized) {
+state.normalized = false;
+state.showNorm = false;
+setStep($('applyBtn'), false);
+drawSpectra();
+status(t('msg.applyReleased'), true);
+return;
+}
+if (!state.data.length) { status(t('msg.loadFirst')); return; }
+try {
+state.norm = state.data.map(s => ({
+key: s.key,
+files: s.files.map(f => ({
+name: f.name, x: f.x,
+normTey: core.normalize(f.x, f.tey, state.from, state.to, state.end).norm,
+normPey: core.normalize(f.x, f.pey, state.from, state.to, state.end).norm,
+})),
+}));
+} catch (e) { status(t('msg.applyFailed', { e: e.message })); return; }
+state.normalized = true;
+state.showNorm = true;
+setStep($('applyBtn'), true);
+drawSpectra();
+const bad = state.norm.flatMap(s => s.files.filter(f => !f.normTey.every(Number.isFinite) || !f.normPey.every(Number.isFinite)).map(f => core.stripExt(f.name)));
+status(bad.length ? t('msg.normInvalid', { list: bad.join(', ') }) : t('msg.applied'), !bad.length);
+}
+function currentP() {
+return state.magnet === 'other' ? state.pOther : core.P_BY_MAGNET[state.magnet];
+}
+function estimate() {
+if (state.estimated) {
+state.estimated = false;
+state.results = [];
+setStep($('printBtn'), false);
+$('resSel').replaceChildren();
+drawResults();
+status(t('msg.estReleased'), true);
+return;
+}
+if (!state.normalized) { status('Press the Button [ Apply ]'); return; }
+state.results = computeResults(state.res);
+state.estimated = true;
+setStep($('printBtn'), true);
+$('resSel').replaceChildren(...state.results.map((r, i) => new Option(`${core.fmtF(r.R)} eV`, i)));
+state.resIndex = 0;
+drawResults();
+statusEstimated();
+}
+function computeResults(resonances) {
+const P = currentP();
+return resonances.map(R => ({
+R, P, orbital: state.orbital,
+samples: state.norm.map(s => {
+const pts = core.resonancePoints(s.files, R);
+const fit = mode => {
+try { return core.orientation(pts.map(p => p.cos2), pts.map(p => p[mode]), P, state.orbital); } catch { return null; }
+};
+return { key: s.key, pts, tey: fit('tey'), pey: fit('pey') };
+}),
+}));
+}
+function reestimate() {
+if (!state.estimated) return;
+state.results = computeResults(state.results.map(r => r.R));
+drawResults();
+statusEstimated();
+}
+function statusEstimated() {
+status(t('msg.estimated'), true);
+}
+async function writeOutputs(files) {
+if (window.showDirectoryPicker) {
+try {
+if (!state.saveDir) state.saveDir = await window.showDirectoryPicker({ id: 'beagle-save', mode: 'readwrite' });
+const save = await state.saveDir.getDirectoryHandle('save', { create: true });
+for (const f of files) {
+const parts = f.path.split('/');
+let dir = save;
+for (const d of parts.slice(0, -1)) dir = await dir.getDirectoryHandle(d, { create: true });
+let name = parts[parts.length - 1];
+if (f.numbered) name = await freeName(dir, name);
+const fh = await dir.getFileHandle(name, { create: true });
+const w = await fh.createWritable();
+await w.write(f.bytes || f.text);
+await w.close();
+}
+return t('msg.saved', { dir: state.saveDir.name, n: files.length });
+} catch (e) {
+if (e.name === 'AbortError') throw e;
+state.saveDir = null;
+console.warn('folder write failed, falling back to zip', e);
+}
+}
+download('save.zip', new Blob([ex.zip(files.map(f => ({ ...f, path: `save/${f.path}` })))], { type: 'application/zip' }));
+return t('msg.zip', { n: files.length });
+}
+async function freeName(dir, name) {
+const exists = async n => { try { await dir.getFileHandle(n); return true; } catch { return false; } };
+if (!(await exists(name))) return name;
+const dot = name.lastIndexOf('.');
+for (let i = 0; ; i++) {
+const n = `${name.slice(0, dot)}${i}${name.slice(dot)}`;
+if (!(await exists(n))) return n;
+}
+}
+async function exportOutputs(withFits) {
+if (!state.normalized) { status('Press the Button [ Apply ]'); return; }
+if (withFits && !state.estimated) { status('Press the Button [ Print the Estimations ]'); return; }
+try {
+const files = state.norm.flatMap(ex.normFiles);
+if (withFits) files.push(...state.results.flatMap(ex.fitFiles));
+status(t('msg.exporting'), true);
+files.push({ path: 'NORM.pdf', bytes: await makePdf('NORM'), numbered: true });
+if (withFits) files.push({ path: 'FIT.pdf', bytes: await makePdf('FIT'), numbered: true });
+const msg = await writeOutputs(files);
+setStep($(withFits ? 'exportFitBtn' : 'exportNormBtn'), true);
+status(msg, true);
+$('exportMsg').textContent = msg;
+$('dlgExport').showModal();
+} catch (e) {
+status(e.name === 'AbortError' ? t('msg.exportCanceled') : t('msg.exportFailed', { e: e.message }));
+}
+}
+function printPages(kind) {
+const pages = [];
+if (kind === 'NORM') {
+for (const s of state.norm) {
+for (const [mode, key] of [['TEY', 'normTey'], ['PEY', 'normPey']]) {
+pages.push({
+xlabel: 'Photon Energy (eV)', ylabel: `${mode} Intensity (a.u.)`, title: s.key, legend: true,
+series: s.files.map((f, i) => ({ x: f.x, y: f[key], color: COLORS[i % COLORS.length], legend: core.stripExt(f.name) })),
+});
+}
+}
+} else {
+for (const r of state.results) {
+for (const mode of ['TEY', 'PEY']) pages.push({ ...RESULT_OPTS, legend: true, title: resultTitle(r, mode), series: resultSeries(r, mode) });
+}
+}
+return pages;
+}
+const makePdf = kind => plotsPdf(printPages(kind));
+function buildTree() {
+const root = { dirs: new Map(), files: [] };
+for (const [path, f] of state.files) {
+const parts = path.split('/');
+let node = root;
+for (const d of parts.slice(0, -1)) {
+if (!node.dirs.has(d)) node.dirs.set(d, { dirs: new Map(), files: [] });
+node = node.dirs.get(d);
+}
+node.files.push({ path, name: f.name });
+}
+const openDirs = new Set();
+for (const p of state.checked) {
+const parts = p.split('/');
+for (let i = 1; i < parts.length; i++) openDirs.add(parts.slice(0, i).join('/'));
+}
+const render = (node, prefix, depth) => {
+const ul = document.createElement('ul');
+for (const [name, d] of [...node.dirs].sort((a, b) => (a[0] < b[0] ? -1 : 1))) {
+const li = document.createElement('li');
+const det = document.createElement('details');
+const here = prefix ? `${prefix}/${name}` : name;
+det.open = depth === 0 || openDirs.has(here);
+const sum = document.createElement('summary');
+sum.textContent = name;
+det.append(sum, render(d, here, depth + 1));
+li.appendChild(det);
+ul.appendChild(li);
+}
+for (const f of node.files.sort((a, b) => (a.name < b.name ? -1 : 1))) {
+const li = document.createElement('li');
+li.className = 'file';
+const lab = document.createElement('label');
+const cb = document.createElement('input');
+cb.type = 'checkbox'; cb.dataset.path = f.path; cb.checked = state.checked.has(f.path);
+lab.append(cb, ' ', f.name);
+li.appendChild(lab);
+ul.appendChild(li);
+}
+return ul;
+};
+const tree = $('tree');
+if (!state.files.size) { tree.innerHTML = '<div class="empty">—</div>'; return; }
+tree.replaceChildren(render(root, '', 0));
+}
+function dirOf(path) { return path.slice(0, path.lastIndexOf('/') + 1); }
+$('tree').addEventListener('change', e => {
+const cb = e.target;
+if (!cb.dataset.path) return;
+const on = cb.checked;
+const targets = [cb.dataset.path];
+if (state.angleDep) {
+const key = core.sampleKey(state.files.get(cb.dataset.path).name), dir = dirOf(cb.dataset.path);
+for (const [p, f] of state.files) if (p !== cb.dataset.path && dirOf(p) === dir && core.sampleKey(f.name) === key) targets.push(p);
+}
+for (const p of targets) {
+if (on) state.checked.add(p); else state.checked.delete(p);
+const box = $('tree').querySelector(`input[data-path="${CSS.escape(p)}"]`);
+if (box) box.checked = on;
+}
+reloadData();
+});
+function loadFileList(list) {
+if (!list.length) return Promise.resolve();
+state.files.clear();
+state.checked.clear();
+state.saveDir = null;
+for (const { file, path } of list) state.files.set(path, { file, name: file.name });
+state.rootName = list[0].path.includes('/') ? list[0].path.split('/')[0] : '';
+$('dirPath').textContent = state.rootName || `${list.length} files`;
+buildTree();
+return reloadData();
+}
+$('dirInput').addEventListener('change', e => {
+loadFileList([...e.target.files].map(file => ({ file, path: file.webkitRelativePath || file.name })));
+e.target.value = '';
+});
+$('refreshBtn').addEventListener('click', () => { for (const f of state.files.values()) delete f.text; buildTree(); reloadData(); });
+$('angleDep').addEventListener('click', () => {
+state.angleDep = !state.angleDep;
+$('angleDep').classList.toggle('on', state.angleDep);
+$('angleDep').setAttribute('aria-pressed', state.angleDep);
+});
+$('beamline').addEventListener('change', e => { state.beamline = e.target.value; reloadData(); });
+$('decimal').addEventListener('change', e => { state.decimal = e.target.value; reloadData(); });
+for (const [id, k] of [['colE', 'energy'], ['colT', 'tey'], ['colP', 'pey'], ['colM', 'mesh']]) {
+$(id).addEventListener('change', e => { state.columns[k] = Math.max(1, Math.round(+e.target.value || 1)); e.target.value = state.columns[k]; reloadData(); });
+}
+$('factor').addEventListener('input', e => { $('factorOut').textContent = (+e.target.value).toFixed(3); });
+$('factor').addEventListener('change', e => { state.factor = +e.target.value; reloadData(); });
+$('sampleSel').addEventListener('change', e => { state.sampleIndex = +e.target.value; renderSampleList(); drawSpectra(); });
+$('calTarget').addEventListener('change', e => { state.target = e.target.value; drawSpectra(); });
+$('calElement').addEventListener('change', e => {
+state.calElement = e.target.value;
+$('calCarbon').hidden = state.calElement !== 'carbon';
+$('calAtomic').hidden = state.calElement === 'carbon';
+calibrate();
+});
+$('shift').addEventListener('change', e => {
+state.shift = +e.target.value || 0;
+e.target.value = (core.roundHalfEven(state.shift * 100) / 100).toFixed(2);
+applyShift();
+});
+for (const k of ['from', 'to', 'end']) {
+$(k).value = state[k].toFixed(2);
+$(k).addEventListener('change', e => {
+const v = +e.target.value;
+if (!Number.isFinite(v)) { e.target.value = state[k].toFixed(2); return; }
+state[k] = v;
+e.target.value = v.toFixed(2);
+drawSpectra();
+});
+}
+$('applyBtn').addEventListener('click', applyNormalization);
+function renderResList() {
+$('resList').replaceChildren(...state.res.map((r, i) => {
+const li = document.createElement('li');
+const sw = document.createElement('span'); sw.className = 'sw';
+const inp = document.createElement('input');
+inp.type = 'number'; inp.step = '0.01'; inp.value = r.toFixed(2); inp.dataset.i = i;
+inp.setAttribute('aria-label', `R${i + 1} (eV)`);
+inp.addEventListener('change', () => {
+const v = +inp.value;
+if (Number.isFinite(v)) state.res[i] = v;
+inp.value = state.res[i].toFixed(2);
+drawSpectra();
+});
+const u = document.createElement('span'); u.textContent = 'eV';
+li.append(sw, inp, u);
+return li;
+}));
+}
+$('nRes').addEventListener('change', e => {
+const n = Math.max(1, Math.round(+e.target.value || 1));
+e.target.value = n;
+while (state.res.length < n) state.res.push(285.0);
+state.res.length = n;
+renderResList();
+drawSpectra();
+});
+$('orbital').addEventListener('change', e => { state.orbital = e.target.value; reestimate(); });
+function renderP() {
+const other = state.magnet === 'other';
+$('pText').hidden = other;
+$('pOther').hidden = !other;
+$('pText').textContent = core.fmtF(currentP());
+}
+$('magnet').addEventListener('change', e => { state.magnet = e.target.value; renderP(); reestimate(); });
+$('pOther').addEventListener('change', e => { state.pOther = +e.target.value || 1; renderP(); reestimate(); });
+$('printBtn').addEventListener('click', estimate);
+$('resSel').addEventListener('change', e => { state.resIndex = +e.target.value; drawResults(); });
+$('exportNormBtn').addEventListener('click', () => exportOutputs(false));
+$('exportFitBtn').addEventListener('click', () => exportOutputs(true));
+function closeMenus(except) {
+for (const m of document.querySelectorAll('.menu')) {
+if (m === except) continue;
+m.querySelector('.menu-list').hidden = true;
+m.querySelector('.menu-btn').setAttribute('aria-expanded', false);
+}
+}
+for (const m of document.querySelectorAll('.menu')) {
+const btn = m.querySelector('.menu-btn'), list = m.querySelector('.menu-list');
+btn.addEventListener('click', () => {
+closeMenus(m);
+list.hidden = !list.hidden;
+btn.setAttribute('aria-expanded', !list.hidden);
+});
+list.addEventListener('click', () => closeMenus());
+}
+document.addEventListener('click', e => { if (!e.target.closest('.menu')) closeMenus(); });
+for (const b of document.querySelectorAll('[data-dialog]')) b.addEventListener('click', () => $(b.dataset.dialog).showModal());
+document.addEventListener('keydown', e => {
+if (!e.ctrlKey) return;
+const map = { m: 'dlgManual', i: 'dlgInfo', s: 'dlgSoftware' };
+const d = map[e.key.toLowerCase()];
+if (d) { e.preventDefault(); $(d).showModal(); }
+});
+$('version').textContent = VERSION;
+$('selAllBtn').addEventListener('click', () => {
+for (const p of state.files.keys()) if (!/(^|\/)save\//i.test(p)) state.checked.add(p);
+buildTree();
+reloadData();
+});
+$('selNoneBtn').addEventListener('click', () => { state.checked.clear(); buildTree(); reloadData(); });
+async function entriesToFiles(entries) {
+const out = [];
+const readAll = reader => new Promise((res, rej) => {
+const acc = [];
+const next = () => reader.readEntries(batch => (batch.length ? (acc.push(...batch), next()) : res(acc)), rej);
+next();
+});
+async function walk(entry, prefix) {
+if (entry.isFile) {
+const file = await new Promise((res, rej) => entry.file(res, rej));
+out.push({ file, path: prefix + file.name });
+} else if (entry.isDirectory) {
+for (const e of await readAll(entry.createReader())) await walk(e, `${prefix}${entry.name}/`);
+}
+}
+for (const e of entries) await walk(e, '');
+return out;
+}
+let dragDepth = 0;
+window.addEventListener('dragenter', e => { if (e.dataTransfer?.types.includes('Files')) { dragDepth++; $('dropOverlay').hidden = false; } });
+window.addEventListener('dragleave', () => { if (--dragDepth <= 0) { dragDepth = 0; $('dropOverlay').hidden = true; } });
+window.addEventListener('dragover', e => { if (e.dataTransfer?.types.includes('Files')) e.preventDefault(); });
+window.addEventListener('drop', async e => {
+if (!e.dataTransfer?.types.includes('Files')) return;
+e.preventDefault();
+dragDepth = 0;
+$('dropOverlay').hidden = true;
+const entries = [...e.dataTransfer.items].map(i => i.webkitGetAsEntry?.()).filter(Boolean);
+const list = entries.length ? await entriesToFiles(entries) : [...e.dataTransfer.files].map(file => ({ file, path: file.name }));
+await loadFileList(list);
+status(t('msg.dropped', { n: list.length }), true);
+});
+function currentSettings() {
+return { ...state, res: [...state.res], columns: { ...state.columns } };
+}
+$('saveSettingsBtn').addEventListener('click', () => {
+download('beagle-settings.json', new Blob([settingsToJSON(currentSettings())], { type: 'application/json' }));
+status(t('msg.settingsSaved'), true);
+});
+$('loadSettingsBtn').addEventListener('click', () => $('settingsInput').click());
+$('settingsInput').addEventListener('change', async e => {
+const f = e.target.files[0];
+e.target.value = '';
+if (!f) return;
+try {
+const { settings, ignored } = parseSettings(await f.text());
+Object.assign(state, settings);
+syncControls();
+await reloadData();
+if (state.calElement === 'carbon') calibrate(false); else if (state.shift) applyShift();
+status(t('msg.settingsLoaded', { ignored: ignored.length ? ` (ignored: ${ignored.join(', ')})` : '' }), true);
+} catch (err) {
+status(t('msg.settingsFailed', { e: err.message }));
+}
+});
+function syncControls() {
+$('beamline').value = state.beamline;
+$('decimal').value = state.decimal;
+$('colE').value = state.columns.energy; $('colT').value = state.columns.tey;
+$('colP').value = state.columns.pey; $('colM').value = state.columns.mesh;
+$('factor').value = state.factor; $('factorOut').textContent = state.factor.toFixed(3);
+$('calTarget').value = state.target;
+$('calElement').value = state.calElement;
+$('calCarbon').hidden = state.calElement !== 'carbon';
+$('calAtomic').hidden = state.calElement === 'carbon';
+$('shift').value = state.shift.toFixed(2);
+for (const k of ['from', 'to', 'end']) $(k).value = state[k].toFixed(2);
+$('nRes').value = state.res.length;
+renderResList();
+$('orbital').value = state.orbital;
+$('magnet').value = state.magnet;
+$('pOther').value = state.pOther;
+renderP();
+$('angleDep').classList.toggle('on', state.angleDep);
+$('angleDep').setAttribute('aria-pressed', state.angleDep);
+}
+function renderSummary() {
+const body = $('summaryBody');
+if (!state.estimated) { body.textContent = t('summary.empty'); return; }
+const cols = t('summary.cols');
+const table = document.createElement('table');
+const head = table.createTHead().insertRow();
+for (const c of cols) { const th = document.createElement('th'); th.textContent = c; head.appendChild(th); }
+const tb = table.createTBody();
+for (const w of ex.summaryRows(state.results)) {
+const tr = tb.insertRow();
+const cells = [
+[w.sample, 'l'], [core.fmtF(w.resonance)], [w.mode, 'l'],
+[`${core.fmtF(w.alpha)} ± ${core.fmtF(w.alphaErr)}`], [`${core.fmtF(w.dr)} ± ${core.fmtF(w.drErr)}`],
+];
+for (const [text, cls] of cells) { const td = tr.insertCell(); td.textContent = text; if (cls) td.className = cls; }
+}
+body.replaceChildren(table);
+}
+$('summaryBtn').addEventListener('click', () => { renderSummary(); $('dlgSummary').showModal(); });
+$('summaryCsvBtn').addEventListener('click', () => {
+if (!state.estimated) return;
+download('beagle-summary.csv', new Blob(['﻿' + ex.summaryCsv(ex.summaryRows(state.results))], { type: 'text/csv' }));
+});
+function applyLang(l) {
+setLang(l);
+document.documentElement.lang = getLang();
+for (const b of document.querySelectorAll('.lang button')) b.setAttribute('aria-pressed', b.dataset.lang === getLang());
+applyText(document);
+if ($('dlgSummary').open) renderSummary();
+try { localStorage.setItem('beagle-lang', getLang()); } catch { /* storage unavailable */ }
+}
+for (const b of document.querySelectorAll('.lang button')) b.addEventListener('click', () => applyLang(b.dataset.lang));
+let savedLang = null;
+try { savedLang = localStorage.getItem('beagle-lang'); } catch { /* storage unavailable */ }
+applyLang(savedLang || ((navigator.language || '').startsWith('ko') ? 'ko' : 'en'));
+$('calCarbon').hidden = true;
+renderResList();
+renderP();
+buildTree();
+drawSpectra();
+drawResults();
+window.__beagle = { state, plots, loadFileList, printPages };
+return {  };
+})();
+</script>
+</body>
+</html>
