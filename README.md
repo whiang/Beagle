@@ -11,6 +11,7 @@ A web version of **Beagle**, the NEXAFS analysis software for the PAL 4D / 10A2 
 
 > 인용 / Citation: Park et al., *J. Synchrotron Rad.* **31**(1) (2024). [doi:10.1107/S1600577523008755](https://doi.org/10.1107/S1600577523008755)
 > 홈페이지 / Website: <https://sites.google.com/view/beagle>
+> 이용 통계 / Usage statistics: <https://whiang.github.io/Beagle/stats.html>
 
 ---
 
