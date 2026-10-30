@@ -44,6 +44,7 @@ button, select, input { font: inherit; color: inherit; }
 .menu-list button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
 .menu-list button:hover { background: var(--accent-soft); }
 .app-title { font-weight: 600; color: var(--muted); margin-left: 6px; }
+.app-title small { font-weight: 400; font-size: 11px; }
 .status { margin-left: auto; min-width: 0; color: #b42318; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60vw; padding-right: 10px; }
 .status.ok { color: var(--muted); }
 .lang { display: flex; border: 1px solid var(--line); border-radius: 5px; overflow: hidden; flex: none; }
@@ -170,7 +171,7 @@ dialog.wide { max-width: min(1100px, 96vw); }
 <button type="button" id="summaryBtn" data-i18n="menu.summary">Summary table</button>
 </div>
 </div>
-<span class="app-title">Beagle</span>
+<span class="app-title">Beagle <small id="appVer"></small></span>
 <output id="status" class="status" aria-live="polite"></output>
 <div class="lang" role="group" aria-label="Language">
 <button type="button" data-lang="ko">KO</button><button type="button" data-lang="en">EN</button>
@@ -1188,7 +1189,7 @@ ko: {
 'manual.title': '사용법',
 'manual.body': `<ol>
 <li>Beam Line, File Structure, Decimal Mark를 데이터 형식에 맞게 고릅니다.</li>
-<li>Data Load의 폴더 버튼으로 데이터 폴더를 열거나, 폴더·파일을 창에 끌어다 놓습니다. Files in Directory에서 파일을 체크합니다. Angle Depending Selection이 켜져 있으면 같은 실험명(<code>&lt;실험명&gt;A&lt;각도&gt;</code>)의 파일이 함께 선택됩니다. "모두 선택"은 모든 파일을 한 번에 선택합니다(일괄 처리).</li>
+<li>Data Load의 폴더 버튼으로 데이터 폴더를 열거나, 폴더·파일을 창에 끌어다 놓습니다. Files in Directory에서 파일을 체크합니다. Angle Depending Selection이 켜져 있으면 같은 실험명(<code>&lt;실험명&gt;A&lt;각도&gt;</code>)의 파일이 함께 선택되고, 그래프에는 Sample List에서 고른 샘플만 보입니다. 끄면 파일을 하나씩 체크할 수 있고, 체크한 모든 파일이 샘플에 상관없이 함께 그려집니다(웹 1.1 추가). "모두 선택"은 모든 파일을 한 번에 선택합니다(일괄 처리).</li>
 <li>필요하면 Plot Filter, Photon Energy Calibration을 설정합니다. Target은 커서를 표시할 그래프(TEY/PEY)입니다.</li>
 <li>그래프의 FROM / TO / END 커서(또는 숫자 입력)로 배경 범위를 정하고 Apply를 누릅니다. 모든 샘플에 적용됩니다.</li>
 <li>R 커서로 공명 에너지를 정하고 Orbital, Beam Line(P)을 고른 뒤 Print the Estimations를 누릅니다.</li>
@@ -1235,7 +1236,7 @@ en: {
 'manual.title': 'Manual',
 'manual.body': `<ol>
 <li>Choose Beam Line, File Structure and Decimal Mark for your data.</li>
-<li>Open the data folder with the Data Load folder button, or drop folders/files onto the window. Check files in Files in Directory. With Angle Depending Selection on, files of the same experiment (<code>&lt;name&gt;A&lt;angle&gt;</code>) are selected together. "Select all" selects every file (batch processing).</li>
+<li>Open the data folder with the Data Load folder button, or drop folders/files onto the window. Check files in Files in Directory. With Angle Depending Selection on, files of the same experiment (<code>&lt;name&gt;A&lt;angle&gt;</code>) are selected together and the graphs show the sample chosen in Sample List. With it off, files are checked one by one and every checked file is drawn, whatever its sample (added in web 1.1). "Select all" selects every file (batch processing).</li>
 <li>Set Plot Filter and Photon Energy Calibration if needed. Target is the graph (TEY/PEY) that shows the cursors.</li>
 <li>Set the background range with the FROM / TO / END cursors (or the numbers) and press Apply. It applies to every sample.</li>
 <li>Place the R cursors on the resonances, choose Orbital and Beam Line (P), and press Print the Estimations.</li>
@@ -1333,7 +1334,7 @@ const { Plot } = __graph_js;
 const { plotsPdf } = __pdf_js;
 const { t, setLang, getLang, applyText } = __i18n_js;
 const { settingsToJSON, parseSettings } = __settings_js;
-const VERSION = '1.0.0';
+const VERSION = '1.1.0';
 const $ = id => document.getElementById(id);
 const COLORS = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'];
 const C_FROM = '#1f5fbf', C_TO = '#d62728', C_END = '#222222', C_RES = '#d62728';
@@ -1426,19 +1427,26 @@ if (inp) inp.value = x.toFixed(2);
 }
 }
 for (const p of [plots.tey, plots.pey]) p.onCursor = onCursor;
-function drawSpectra() {
+function shownSamples() {
+if (!state.angleDep) return state.data;
 const s = state.data[state.sampleIndex];
-const n = s && state.showNorm ? state.norm.find(t => t.key === s.key) : null;
+return s ? [s] : [];
+}
+function drawSpectra() {
+const shown = shownSamples();
 const series = key => {
-if (!s) return [];
+let k = 0;
+return shown.flatMap(s => {
+const n = state.showNorm ? state.norm.find(t => t.key === s.key) : null;
 return s.files.map((f, i) => {
 let x = f.x, y = f[key];
 if (n && key !== 'mesh' && n.files[i]) { x = n.files[i].x; y = key === 'tey' ? n.files[i].normTey : n.files[i].normPey; }
-return { x, y, color: COLORS[i % COLORS.length] };
+return { x, y, color: COLORS[k++ % COLORS.length] };
+});
 });
 };
-const o = s && state.origin.find(t => t.key === s.key);
-const xs = o ? o.files.flatMap(f => [f.x[0], f.x[f.x.length - 1]]) : [];
+const keys = new Set(shown.map(s => s.key));
+const xs = state.origin.filter(o => keys.has(o.key)).flatMap(o => o.files.flatMap(f => [f.x[0], f.x[f.x.length - 1]]));
 const fixed = xs.length ? { x: [Math.min(...xs), Math.max(...xs)] } : null;
 for (const p of [plots.tey, plots.pey, plots.mesh]) p.fixed = fixed;
 plots.tey.setSeries(series('tey'));
@@ -1473,8 +1481,8 @@ const sel = $('sampleSel');
 sel.replaceChildren(...state.data.map((s, i) => new Option(s.key, i)));
 if (state.sampleIndex >= state.data.length) state.sampleIndex = 0;
 sel.value = state.sampleIndex;
-const s = state.data[state.sampleIndex];
-$('fileLegend').replaceChildren(...(s ? s.files : []).map((f, i) => {
+sel.disabled = !state.angleDep && state.data.length > 1;
+$('fileLegend').replaceChildren(...shownSamples().flatMap(s => s.files).map((f, i) => {
 const li = document.createElement('li');
 const sw = document.createElement('span');
 sw.className = 'sw'; sw.style.background = COLORS[i % COLORS.length];
@@ -1755,6 +1763,8 @@ $('angleDep').addEventListener('click', () => {
 state.angleDep = !state.angleDep;
 $('angleDep').classList.toggle('on', state.angleDep);
 $('angleDep').setAttribute('aria-pressed', state.angleDep);
+renderSampleList();
+drawSpectra();
 });
 $('beamline').addEventListener('change', e => { state.beamline = e.target.value; reloadData(); });
 $('decimal').addEventListener('change', e => { state.decimal = e.target.value; reloadData(); });
@@ -1851,6 +1861,7 @@ const d = map[e.key.toLowerCase()];
 if (d) { e.preventDefault(); $(d).showModal(); }
 });
 $('version').textContent = VERSION;
+$('appVer').textContent = VERSION;
 $('selAllBtn').addEventListener('click', () => {
 for (const p of state.files.keys()) if (!/(^|\/)save\//i.test(p)) state.checked.add(p);
 buildTree();
