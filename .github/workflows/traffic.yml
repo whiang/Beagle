@@ -1,6 +1,7 @@
-# Daily copy of the repository traffic (GitHub keeps 14 days) into traffic.json for stats.html.
-# Needs the secret TRAFFIC_TOKEN: a token that can read this repository's traffic
-# (fine-grained token with "Administration: Read-only" on this repository).
+# Daily copy of the repository traffic (GitHub keeps 14 days) into traffic.json and of the web app
+# visitors by country (GoatCounter) into goatcounter.json for stats.html.
+# Secrets: TRAFFIC_TOKEN, a token that can read this repository's traffic (fine-grained token with
+# "Administration: Read-only" on this repository); GC_TOKEN, a GoatCounter API token ("Read statistics").
 name: traffic
 on:
   schedule:
@@ -16,9 +17,11 @@ jobs:
       - run: node traffic.mjs
         env:
           GH_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
+      - run: node goatcounter.mjs
+        env:
+          GC_TOKEN: ${{ secrets.GC_TOKEN }}
       - run: |
-          [ -f traffic.json ] || exit 0
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add traffic.json
+          for f in traffic.json goatcounter.json; do if [ -f $f ]; then git add $f; fi; done
           git diff --cached --quiet || { git commit -m 'Update traffic' && git push; }

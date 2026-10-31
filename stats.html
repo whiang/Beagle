@@ -82,6 +82,9 @@ details summary { cursor: pointer; color: var(--text-2); font-size: 13px; margin
 .note { border-left: 3px solid var(--accent); padding: 8px 12px; background: var(--bg); border-radius: 0 6px 6px 0; font-size: 13.5px; }
 .note ol { margin: 6px 0 0; padding-left: 20px; }
 iframe { width: 100%; height: 720px; border: 0; border-radius: 8px; background: var(--bg); }
+td.bar { width: 32%; }
+td.bar span { display: block; height: 8px; border-radius: 0 4px 4px 0; background: var(--series-1); min-width: 2px; }
+tr.region td:first-child { padding-left: 26px; color: var(--text-2); }
 .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0 24px; }
 </style>
 </head>
@@ -92,16 +95,17 @@ iframe { width: 100%; height: 720px; border: 0; border-radius: 8px; background: 
     <span class="sub"><a href="./">Beagle 웹 실행</a> · <a href="https://sites.google.com/view/beagle">홈페이지</a></span>
   </header>
 
+  <section class="card" id="gc">
+    <h2>웹앱 이용 (GoatCounter)</h2>
+    <p class="sub">웹앱(whiang.github.io/Beagle)을 연 횟수와 국가입니다. 쿠키 없이 집계하며 측정 데이터는 보내지 않습니다 (1.1.1부터).</p>
+    <div id="gcBody"><div class="empty">불러오는 중…</div></div>
+    <p class="sub"><a href="https://whiang.goatcounter.com/">GoatCounter 대시보드 열기 →</a> (일별 추이, 유입 경로, 브라우저)</p>
+  </section>
+
   <section class="card" id="ga">
     <h2>홈페이지 방문 (Google Analytics)</h2>
     <p class="sub">홈페이지(sites.google.com/view/beagle) 방문자 수와 지역</p>
     <div id="gaBody"></div>
-  </section>
-
-  <section class="card" id="gc">
-    <h2>웹앱 이용 (GoatCounter)</h2>
-    <p class="sub">웹앱(whiang.github.io/Beagle)을 연 횟수와 국가입니다. 쿠키 없이 집계하며 측정 데이터는 보내지 않습니다 (1.1.1부터).</p>
-    <p><a href="https://whiang.goatcounter.com/">GoatCounter 대시보드 열기 →</a></p>
   </section>
 
   <section class="card" id="gh">
@@ -264,6 +268,33 @@ function render(data) {
   );
   draw(range);
 }
+
+// ---------- web app visitors by country / region (GoatCounter, goatcounter.json) ----------
+function renderGc(data) {
+  const total = data.total || data.countries.reduce((s, c) => s + c.count, 0);
+  const pct = n => (total ? ((n / total) * 100).toFixed(1) + '%' : '-');
+  const max = Math.max(1, ...data.countries.map(c => c.count));
+  const row = (name, n, cls) => el('tr', cls ? { class: cls } : {},
+    el('td', {}, name), el('td', { class: 'n' }, fmt(n)), el('td', { class: 'n' }, pct(n)),
+    el('td', { class: 'bar' }, el('span', { style: `width:${(n / max) * 100}%` })));
+  const body = el('tbody');
+  for (const c of [...data.countries].sort((a, b) => b.count - a.count)) {
+    body.append(row(c.name, c.count));
+    for (const r of [...(c.regions || [])].sort((a, b) => b.count - a.count)) body.append(row(r.name, r.count, 'region'));
+  }
+  const t = el('table', { 'aria-label': '국가·지역별 접속자' },
+    el('thead', {}, el('tr', {}, el('th', {}, '국가 / 지역'), el('th', { class: 'n' }, '접속자'), el('th', { class: 'n' }, '비율'), el('th', {}, ''))), body);
+  $('gcBody').replaceChildren(
+    el('div', { class: 'tiles' },
+      el('div', { class: 'tile' }, el('div', { class: 'v' }, fmt(total)), el('div', { class: 'k' }, '누적 접속자')),
+      el('div', { class: 'tile' }, el('div', { class: 'v' }, fmt(data.countries.length)), el('div', { class: 'k' }, '국가 수'))),
+    el('h3', {}, `국가·지역별 접속자 (${data.start} 이후, 갱신 ${new Date(data.updated).toLocaleString('ko-KR')})`),
+    data.countries.length ? t : el('div', { class: 'empty' }, '아직 접속 기록이 없습니다'));
+}
+fetch('goatcounter.json', { cache: 'no-store' })
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(renderGc)
+  .catch(() => { $('gcBody').innerHTML = '<div class="empty">아직 수집된 데이터가 없습니다 (goatcounter.json)</div>'; });
 
 fetch('traffic.json', { cache: 'no-store' })
   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
