@@ -12,12 +12,15 @@ if (!TOKEN) { console.log('GC_TOKEN not set; goatcounter.json unchanged'); proce
 
 async function get(path) {
   const r = await fetch(`${SITE}/api/v0/${path}`, { headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' } });
+  // GoatCounter answers 404 while there is nothing to count yet
+  if (r.status === 404) { console.log(`${path}: 404 (no data)`); return {}; }
   if (!r.ok) throw new Error(`${path}: HTTP ${r.status} ${await r.text()}`);
   return r.json();
 }
 
-const end = new Date(Date.now() + 86400e3).toISOString().slice(0, 10);
-const range = `start=${START}&end=${end}`;
+// the API wants date-times rounded to the hour
+const hour = new Date(Math.ceil(Date.now() / 3600e3) * 3600e3).toISOString().slice(0, 19) + 'Z';
+const range = `start=${START}T00:00:00Z&end=${hour}`;
 // visitors per entry (older GoatCounter versions call it count_unique)
 const rows = list => list.map(s => ({ id: s.id, name: s.name || s.id || '(unknown)', count: s.count ?? s.count_unique ?? 0 }));
 const total = await get(`stats/total?${range}`);
