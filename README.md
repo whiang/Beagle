@@ -12,7 +12,7 @@ A web version of **Beagle**, the NEXAFS analysis software for the PAL 4D / 10A2 
 > 인용 / Citation: Park et al., *J. Synchrotron Rad.* **31**(1) (2024). [doi:10.1107/S1600577523008755](https://doi.org/10.1107/S1600577523008755)
 > 홈페이지 / Website: <https://sites.google.com/view/beagle>
 > 이용 통계 / Usage statistics: <https://whiang.github.io/Beagle/stats.html>
-> 이전 버전 / Previous version: [1.0.0](https://whiang.github.io/Beagle/v1.0/) (현재 1.1.0 / current 1.1.0)
+> 이전 버전 / Previous version: [1.0.0](https://whiang.github.io/Beagle/v1.0/) (현재 1.1.1 / current 1.1.1)
 
 ---
 
@@ -21,7 +21,7 @@ A web version of **Beagle**, the NEXAFS analysis software for the PAL 4D / 10A2 
 ### 실행
 - **웹에서 바로:** <https://whiang.github.io/Beagle/> (Chrome, Edge 권장)
 - **오프라인:** 이 저장소의 [`index.html`](index.html)을 내려받아(Raw → 다른 이름으로 저장) 더블클릭하면 인터넷 없이도 실행됩니다.
-- 설치가 필요 없고, **모든 계산은 브라우저 안에서만** 이루어집니다. 측정 데이터는 서버나 외부로 전송되지 않습니다.
+- 설치가 필요 없고, **모든 계산은 브라우저 안에서만** 이루어집니다. 측정 데이터는 서버나 외부로 전송되지 않습니다. 웹 주소(whiang.github.io)에서 열면 접속 통계(방문 수, 국가)만 GoatCounter로 쿠키 없이 집계하며, 내려받은 파일은 아무것도 보내지 않습니다.
 
 ### 사용 순서 (원본과 같은 4열 화면)
 1. **Beam Line**(4D / 10A2), **File Structure**(열 번호), **Decimal Mark**(점/쉼표)를 데이터에 맞게 고릅니다.
@@ -62,7 +62,7 @@ Chrome/Edge에서는 고른 폴더 아래 `save/`에 바로 저장하고, 그 �
 ### Run
 - **Online:** <https://whiang.github.io/Beagle/> (Chrome or Edge recommended)
 - **Offline:** download [`index.html`](index.html) from this repository (Raw → Save as) and open it; no internet connection is needed.
-- Nothing to install. **All calculations run inside the browser**; measurement data is never sent to a server.
+- Nothing to install. **All calculations run inside the browser**; measurement data is never sent to a server. Opened at whiang.github.io, only visit statistics (visits, country) are counted with GoatCounter (no cookies); a downloaded copy sends nothing.
 
 ### Workflow (same four-column screen as the original)
 1. Choose **Beam Line** (4D / 10A2), **File Structure** (column numbers) and **Decimal Mark** (dot/comma).

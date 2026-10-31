@@ -1199,7 +1199,7 @@ ko: {
 'info.title': '정보',
 'info.body': '<p>Beagle: PAL 4D / 10A2 빔라인 NEXAFS 분석 소프트웨어.</p><p>인용: Park et al., <i>J. Synchrotron Rad.</i> <b>31</b>(1) (2024). <a href="https://doi.org/10.1107/S1600577523008755" target="_blank" rel="noopener">doi:10.1107/S1600577523008755</a></p>',
 'software.title': '소프트웨어',
-'software.body': '모든 계산은 브라우저 안에서만 수행되며 데이터는 외부로 전송되지 않습니다.',
+'software.body': '모든 계산은 브라우저 안에서만 수행되며 측정 데이터는 외부로 전송되지 않습니다. whiang.github.io에서 열면 접속 통계(방문 수, 국가)만 GoatCounter로 집계합니다.',
 'export.title': '내보내기',
 'summary.title': '결과 요약표',
 'summary.empty': 'Print the Estimations를 먼저 누르세요.',
@@ -1246,7 +1246,7 @@ en: {
 'info.title': 'Information',
 'info.body': '<p>Beagle: NEXAFS data analysis software for PAL 4D / 10A2 beamlines.</p><p>Please cite: Park et al., <i>J. Synchrotron Rad.</i> <b>31</b>(1) (2024). <a href="https://doi.org/10.1107/S1600577523008755" target="_blank" rel="noopener">doi:10.1107/S1600577523008755</a></p>',
 'software.title': 'Software',
-'software.body': 'All calculations run inside the browser; no data leaves this computer.',
+'software.body': 'All calculations run inside the browser; measurement data never leaves this computer. Opened at whiang.github.io, only visit statistics (visits, country) are counted with GoatCounter (no cookies).',
 'export.title': 'Export',
 'summary.title': 'Summary table',
 'summary.empty': 'Press Print the Estimations first.',
@@ -1334,7 +1334,7 @@ const { Plot } = __graph_js;
 const { plotsPdf } = __pdf_js;
 const { t, setLang, getLang, applyText } = __i18n_js;
 const { settingsToJSON, parseSettings } = __settings_js;
-const VERSION = '1.1.0';
+const VERSION = '1.1.1';
 const $ = id => document.getElementById(id);
 const COLORS = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'];
 const C_FROM = '#1f5fbf', C_TO = '#d62728', C_END = '#222222', C_RES = '#d62728';
@@ -1862,6 +1862,11 @@ if (d) { e.preventDefault(); $(d).showModal(); }
 });
 $('version').textContent = VERSION;
 $('appVer').textContent = VERSION;
+const GC_CODE = 'whiang';
+if (GC_CODE && location.hostname === 'whiang.github.io') {
+const q = new URLSearchParams({ p: location.pathname, t: `Beagle ${VERSION}`, r: document.referrer, s: screen.width, rnd: Math.random().toString(36).slice(2) });
+new Image().src = `https://${GC_CODE}.goatcounter.com/count?${q}`;
+}
 $('selAllBtn').addEventListener('click', () => {
 for (const p of state.files.keys()) if (!/(^|\/)save\//i.test(p)) state.checked.add(p);
 buildTree();
