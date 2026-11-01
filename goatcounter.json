@@ -1,7 +1,14 @@
 {
  "site": "https://whiang.goatcounter.com",
- "updated": "2026-10-31T21:02:57.239Z",
+ "updated": "2026-11-01T10:29:06.836Z",
  "start": "2026-10-31",
- "total": 0,
- "countries": []
+ "total": 2,
+ "countries": [
+  {
+   "id": "KR",
+   "name": "South Korea",
+   "count": 2,
+   "regions": []
+  }
+ ]
 }
