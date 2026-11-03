@@ -23,13 +23,17 @@ const hour = new Date(Math.ceil(Date.now() / 3600e3) * 3600e3).toISOString().sli
 const range = `start=${START}T00:00:00Z&end=${hour}`;
 // visitors per entry (older GoatCounter versions call it count_unique)
 const rows = list => list.map(s => ({ id: s.id, name: s.name || s.id || '(unknown)', count: s.count ?? s.count_unique ?? 0 }));
-const total = await get(`stats/total?${range}`);
+// visitors per day: summed over the pages (the app is practically one page, /Beagle/)
+const hits = await get(`stats/hits?${range}&daily=true&limit=100`);
+const perDay = {};
+for (const h of hits.hits || []) for (const d of h.stats || []) perDay[d.day] = (perDay[d.day] || 0) + (d.daily || 0);
+const daily = Object.entries(perDay).sort().map(([date, count]) => ({ date, count }));
 const countries = rows((await get(`stats/locations?${range}&limit=100`)).stats || []);
 for (const c of countries) {
   if (!c.id) { c.regions = []; continue; }
   c.regions = rows((await get(`stats/locations/${encodeURIComponent(c.id)}?${range}&limit=100`)).stats || [])
     .filter(r => r.id && r.id !== c.id);
 }
-const data = { site: SITE, updated: new Date().toISOString(), start: START, total: total.total ?? total.total_unique ?? 0, countries };
+const data = { site: SITE, updated: new Date().toISOString(), start: START, total: countries.reduce((n, c) => n + c.count, 0), daily, countries };
 writeFileSync(FILE, JSON.stringify(data, null, 1) + '\n');
-console.log(`goatcounter.json: ${data.total} visitors, ${countries.length} countries`);
+console.log(`goatcounter.json: ${data.total} visitors, ${countries.length} countries, ${daily.length} days`);

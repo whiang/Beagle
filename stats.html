@@ -72,6 +72,11 @@ th { color: var(--text-2); font-weight: 600; }
 iframe { display: block; width: 100%; height: calc(100cqw * 550 / 1200 + 32px); min-height: 260px; border: 0; border-radius: 8px; background: var(--bg); }
 td.bar { width: 32%; }
 td.bar span { display: block; height: 8px; border-radius: 0 4px 4px 0; background: var(--series-1); min-width: 2px; }
+.chart { position: relative; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.tip { position: absolute; top: 8px; pointer-events: none; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 6px 9px; font-size: 12.5px; box-shadow: 0 2px 8px rgb(0 0 0 / .12); white-space: nowrap; display: none; }
+.tip b { display: block; margin-bottom: 2px; }
 tr.region td:first-child { padding-left: 26px; color: var(--text-2); }
 </style>
 </head>
@@ -122,6 +127,64 @@ if (LOOKER_EMBED) {
     </ol></div>`;
 }
 
+// ---------- web app visitors per day: line chart with crosshair and tooltip ----------
+const SVG = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs) => { const e = document.createElementNS(SVG, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); return e; };
+
+// top of the y axis: 4 whole-number steps of 1, 2 or 5 x 10^k
+function niceMax(v) {
+  const raw = Math.max(1, v / 4), p = 10 ** Math.floor(Math.log10(raw)), m = raw / p;
+  return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 5 ? 5 : 10) * p * 4;
+}
+
+// every calendar day from the start to the last update, missing days = 0
+function fillDays(list, start, until) {
+  const by = Object.fromEntries((list || []).map(d => [d.date, d.count]));
+  const out = [], end = new Date(until.slice(0, 10) + 'T00:00:00Z');
+  for (let d = new Date(start + 'T00:00:00Z'); d <= end; d.setUTCDate(d.getUTCDate() + 1)) {
+    const k = d.toISOString().slice(0, 10);
+    out.push({ date: k, count: by[k] || 0 });
+  }
+  return out;
+}
+
+function lineChart(days, W) {
+  const H = 220, m = { l: 36, r: 24, t: 12, b: 28 }, pw = W - m.l - m.r, ph = H - m.t - m.b;
+  const max = niceMax(Math.max(1, ...days.map(d => d.count)));
+  const x = i => m.l + (days.length === 1 ? pw / 2 : (i * pw) / (days.length - 1));
+  const y = v => m.t + ph - (v / max) * ph;
+  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': '웹앱 일별 접속자' });
+  for (let k = 0; k <= 4; k++) {
+    const v = (max * k) / 4, yy = y(v);
+    svg.append(svgEl('line', { x1: m.l, x2: m.l + pw, y1: yy, y2: yy, stroke: k ? 'var(--grid)' : 'var(--border)', 'stroke-width': 1 }));
+    const t = svgEl('text', { x: m.l - 6, y: yy + 4, 'text-anchor': 'end' }); t.textContent = fmt(v); svg.append(t);
+  }
+  const step = Math.max(1, Math.ceil(days.length / Math.max(2, Math.floor(pw / 70))));
+  days.forEach((d, i) => {
+    if (i % step) return;
+    const t = svgEl('text', { x: x(i), y: H - 8, 'text-anchor': 'middle' }); t.textContent = d.date.slice(5).replace('-', '/'); svg.append(t);
+  });
+  svg.append(svgEl('polyline', { points: days.map((d, i) => `${x(i).toFixed(1)},${y(d.count).toFixed(1)}`).join(' '), fill: 'none', stroke: 'var(--series-1)', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+  if (days.length === 1) svg.append(svgEl('circle', { cx: x(0), cy: y(days[0].count), r: 4, fill: 'var(--series-1)' }));
+  const cross = svgEl('line', { y1: m.t, y2: m.t + ph, stroke: 'var(--muted)', 'stroke-width': 1, 'stroke-dasharray': '3 3', visibility: 'hidden' });
+  const dot = svgEl('circle', { r: 4.5, fill: 'var(--series-1)', stroke: 'var(--surface)', 'stroke-width': 2, visibility: 'hidden' });
+  const hit = svgEl('rect', { x: m.l, y: m.t, width: pw, height: ph, fill: 'transparent' });
+  svg.append(cross, dot, hit);
+  const tip = el('div', { class: 'tip' });
+  hit.addEventListener('pointermove', ev => {
+    const r = svg.getBoundingClientRect(), px = ((ev.clientX - r.left) / r.width) * W;
+    const i = days.length === 1 ? 0 : Math.max(0, Math.min(days.length - 1, Math.round(((px - m.l) / pw) * (days.length - 1))));
+    for (const [a, v] of [['x1', x(i)], ['x2', x(i)], ['visibility', 'visible']]) cross.setAttribute(a, v);
+    for (const [a, v] of [['cx', x(i)], ['cy', y(days[i].count)], ['visibility', 'visible']]) dot.setAttribute(a, v);
+    tip.replaceChildren(el('b', {}, days[i].date), `접속자 ${fmt(days[i].count)}`);
+    tip.style.display = 'block';
+    const left = (x(i) / W) * r.width;
+    tip.style.left = `${left + 12 + tip.offsetWidth > r.width ? left - tip.offsetWidth - 12 : left + 12}px`;
+  });
+  hit.addEventListener('pointerleave', () => { tip.style.display = 'none'; cross.setAttribute('visibility', 'hidden'); dot.setAttribute('visibility', 'hidden'); });
+  return el('div', { class: 'chart' }, svg, tip);
+}
+
 // ---------- web app visitors by country / region (GoatCounter, goatcounter.json) ----------
 function renderGc(data) {
   const total = data.total || data.countries.reduce((s, c) => s + c.count, 0);
@@ -137,12 +200,17 @@ function renderGc(data) {
   }
   const t = el('table', { 'aria-label': '국가·지역별 접속자' },
     el('thead', {}, el('tr', {}, el('th', {}, '국가 / 지역'), el('th', { class: 'n' }, '접속자'), el('th', { class: 'n' }, '비율'), el('th', {}, ''))), body);
+  const days = fillDays(data.daily, data.start, data.updated), chartBox = el('div');
+  let lastW = 0;
+  const draw = () => { const w = Math.max(280, chartBox.clientWidth || 960); if (w !== lastW) { lastW = w; chartBox.replaceChildren(lineChart(days, w)); } };
   $('gcBody').replaceChildren(
     el('div', { class: 'tiles' },
       el('div', { class: 'tile' }, el('div', { class: 'v' }, fmt(total)), el('div', { class: 'k' }, '누적 접속자')),
       el('div', { class: 'tile' }, el('div', { class: 'v' }, fmt(data.countries.length)), el('div', { class: 'k' }, '국가 수'))),
+    ...(data.daily ? [el('h3', {}, '일별 접속자'), chartBox] : []),
     el('h3', {}, `국가·지역별 접속자 (${data.start} 이후, 갱신 ${new Date(data.updated).toLocaleString('ko-KR')})`),
     data.countries.length ? t : el('div', { class: 'empty' }, '아직 접속 기록이 없습니다'));
+  if (data.daily) { draw(); addEventListener('resize', draw); }
 }
 fetch('goatcounter.json', { cache: 'no-store' })
   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
