@@ -67,9 +67,11 @@ th { color: var(--text-2); font-weight: 600; }
 .empty { color: var(--muted); font-size: 13.5px; padding: 18px 0; text-align: center; }
 .note { border-left: 3px solid var(--accent); padding: 8px 12px; background: var(--bg); border-radius: 0 6px 6px 0; font-size: 13.5px; }
 .note ol { margin: 6px 0 0; padding-left: 20px; }
-/* follows the report canvas (1200 x 550 in Data Studio) plus its footer bar, so the report fills the box at any width */
-#gaBody { container-type: inline-size; }
-iframe { display: block; width: 100%; height: calc(100cqw * 550 / 1200 + 32px); min-height: 260px; border: 0; border-radius: 8px; background: var(--bg); }
+/* the report is laid out at its canvas size (1200 x 550 in Data Studio, plus the footer bar) and scaled to the
+   box width, so it fits the same way on a phone and on a desktop (Data Studio re-flows badly in a narrow frame) */
+.gaBox { position: relative; overflow: hidden; border-radius: 8px; background: var(--bg); }
+.gaBox iframe { position: absolute; top: 0; left: 0; width: 1200px; height: 582px; border: 0; transform-origin: 0 0; }
+.gaMore { margin: 8px 0 0; font-size: 13px; }
 td.bar { width: 32%; }
 td.bar span { display: block; height: 8px; border-radius: 0 4px 4px 0; background: var(--series-1); min-width: 2px; }
 .chart { position: relative; }
@@ -117,7 +119,16 @@ const el = (tag, attrs = {}, ...kids) => {
 
 // ---------- Google Analytics ----------
 if (LOOKER_EMBED) {
-  $('gaBody').append(el('iframe', { src: LOOKER_EMBED, title: 'Google Analytics 보고서', loading: 'lazy', allowfullscreen: '' }));
+  const frame = el('iframe', { src: LOOKER_EMBED, title: 'Google Analytics 보고서', loading: 'lazy', allowfullscreen: '' });
+  const box = el('div', { class: 'gaBox' }, frame);
+  $('gaBody').append(box, el('p', { class: 'gaMore' },
+    el('a', { href: LOOKER_EMBED.replace('/embed/', '/'), target: '_blank', rel: 'noopener' }, '보고서 크게 보기 →')));
+  const fit = () => {
+    const k = box.clientWidth / 1200;
+    frame.style.transform = `scale(${k})`;
+    box.style.height = `${582 * k}px`;
+  };
+  fit(); new ResizeObserver(fit).observe(box);
 } else {
   $('gaBody').innerHTML = `<div class="note">아직 연결되지 않았습니다. 연결 순서:
     <ol>
