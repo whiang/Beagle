@@ -81,7 +81,9 @@ details summary { cursor: pointer; color: var(--text-2); font-size: 13px; margin
 .empty { color: var(--muted); font-size: 13.5px; padding: 18px 0; text-align: center; }
 .note { border-left: 3px solid var(--accent); padding: 8px 12px; background: var(--bg); border-radius: 0 6px 6px 0; font-size: 13.5px; }
 .note ol { margin: 6px 0 0; padding-left: 20px; }
-iframe { width: 100%; height: 720px; border: 0; border-radius: 8px; background: var(--bg); }
+/* follows the report canvas (1200 x 550 in Data Studio) plus its footer bar, so the report fills the box at any width */
+#gaBody { container-type: inline-size; }
+iframe { display: block; width: 100%; height: calc(100cqw * 550 / 1200 + 32px); min-height: 260px; border: 0; border-radius: 8px; background: var(--bg); }
 td.bar { width: 32%; }
 td.bar span { display: block; height: 8px; border-radius: 0 4px 4px 0; background: var(--series-1); min-width: 2px; }
 tr.region td:first-child { padding-left: 26px; color: var(--text-2); }
