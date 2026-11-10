@@ -1,6 +1,6 @@
 {
  "repo": "whiang/Beagle",
- "updated": "2026-11-09T11:34:38.892Z",
+ "updated": "2026-11-10T11:14:36.639Z",
  "views": {
   "2026-10-15": {
    "count": 0,
@@ -99,6 +99,10 @@
    "uniques": 0
   },
   "2026-11-08": {
+   "count": 0,
+   "uniques": 0
+  },
+  "2026-11-09": {
    "count": 0,
    "uniques": 0
   }
@@ -203,36 +207,40 @@
   "2026-11-08": {
    "count": 17,
    "uniques": 9
+  },
+  "2026-11-09": {
+   "count": 9,
+   "uniques": 4
   }
  },
  "last14": {
   "views": {
-   "count": 21,
+   "count": 19,
    "uniques": 2
   },
   "clones": {
-   "count": 325,
-   "uniques": 118
+   "count": 305,
+   "uniques": 102
   }
  },
  "referrers": [
   {
    "referrer": "github.com",
-   "count": 4,
+   "count": 2,
    "uniques": 1
   }
  ],
  "paths": [
   {
-   "path": "/whiang/Beagle",
-   "title": "Overview",
-   "count": 6,
-   "uniques": 2
-  },
-  {
    "path": "/whiang/Beagle/actions/workflows/traffic.yml",
    "title": "/actions/workflows/traffic.yml",
    "count": 5,
+   "uniques": 2
+  },
+  {
+   "path": "/whiang/Beagle",
+   "title": "Overview",
+   "count": 4,
    "uniques": 2
   },
   {
