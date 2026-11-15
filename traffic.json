@@ -1,6 +1,6 @@
 {
  "repo": "whiang/Beagle",
- "updated": "2026-11-14T10:28:03.221Z",
+ "updated": "2026-11-15T10:55:46.849Z",
  "views": {
   "2026-10-15": {
    "count": 0,
@@ -119,6 +119,10 @@
    "uniques": 0
   },
   "2026-11-13": {
+   "count": 0,
+   "uniques": 0
+  },
+  "2026-11-14": {
    "count": 0,
    "uniques": 0
   }
@@ -243,16 +247,20 @@
   "2026-11-13": {
    "count": 4,
    "uniques": 3
+  },
+  "2026-11-14": {
+   "count": 7,
+   "uniques": 6
   }
  },
  "last14": {
   "views": {
-   "count": 19,
-   "uniques": 2
+   "count": 2,
+   "uniques": 1
   },
   "clones": {
-   "count": 307,
-   "uniques": 103
+   "count": 250,
+   "uniques": 89
   }
  },
  "referrers": [
@@ -264,63 +272,9 @@
  ],
  "paths": [
   {
-   "path": "/whiang/Beagle/actions/workflows/traffic.yml",
-   "title": "/actions/workflows/traffic.yml",
-   "count": 5,
-   "uniques": 2
-  },
-  {
    "path": "/whiang/Beagle",
    "title": "Overview",
-   "count": 4,
-   "uniques": 2
-  },
-  {
-   "path": "/whiang/Beagle/actions",
-   "title": "/actions",
    "count": 2,
-   "uniques": 1
-  },
-  {
-   "path": "/whiang/Beagle/actions/runs/41237756969",
-   "title": "/actions/runs/41237756969",
-   "count": 2,
-   "uniques": 1
-  },
-  {
-   "path": "/whiang/Beagle/actions/runs/41037859679/workflow",
-   "title": "/actions/runs/41037859679/workflow",
-   "count": 1,
-   "uniques": 1
-  },
-  {
-   "path": "/whiang/Beagle/actions/runs/41189658396",
-   "title": "/actions/runs/41189658396",
-   "count": 1,
-   "uniques": 1
-  },
-  {
-   "path": "/whiang/Beagle/actions/runs/41237522063",
-   "title": "/actions/runs/41237522063",
-   "count": 1,
-   "uniques": 1
-  },
-  {
-   "path": "/whiang/Beagle/actions/runs/41237522063/job/124644316369",
-   "title": "/actions/runs/41237522063/job/124644316369",
-   "count": 1,
-   "uniques": 1
-  },
-  {
-   "path": "/whiang/Beagle/actions/runs/41237756969/job/124645021291",
-   "title": "/actions/runs/41237756969/job/124645021291",
-   "count": 1,
-   "uniques": 1
-  },
-  {
-   "path": "/whiang/Beagle/actions/runs/41238210477",
-   "title": "/actions/runs/41238210477",
-   "count": 1,
    "uniques": 1
   }
  ]
