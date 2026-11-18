@@ -1,6 +1,6 @@
 {
  "repo": "whiang/Beagle",
- "updated": "2026-11-17T11:53:46.103Z",
+ "updated": "2026-11-18T11:44:00.075Z",
  "views": {
   "2026-10-15": {
    "count": 0,
@@ -131,6 +131,10 @@
    "uniques": 0
   },
   "2026-11-16": {
+   "count": 0,
+   "uniques": 0
+  },
+  "2026-11-17": {
    "count": 0,
    "uniques": 0
   }
@@ -267,31 +271,22 @@
   "2026-11-16": {
    "count": 12,
    "uniques": 7
+  },
+  "2026-11-17": {
+   "count": 4,
+   "uniques": 3
   }
  },
  "last14": {
   "views": {
-   "count": 2,
-   "uniques": 1
+   "count": 0,
+   "uniques": 0
   },
   "clones": {
-   "count": 224,
-   "uniques": 80
+   "count": 173,
+   "uniques": 67
   }
  },
- "referrers": [
-  {
-   "referrer": "github.com",
-   "count": 2,
-   "uniques": 1
-  }
- ],
- "paths": [
-  {
-   "path": "/whiang/Beagle",
-   "title": "Overview",
-   "count": 2,
-   "uniques": 1
-  }
- ]
+ "referrers": [],
+ "paths": []
 }
