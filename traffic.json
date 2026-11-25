@@ -1,6 +1,6 @@
 {
  "repo": "whiang/Beagle",
- "updated": "2026-11-24T13:44:43.628Z",
+ "updated": "2026-11-25T12:57:37.986Z",
  "views": {
   "2026-10-15": {
    "count": 0,
@@ -161,6 +161,10 @@
   "2026-11-23": {
    "count": 0,
    "uniques": 0
+  },
+  "2026-11-24": {
+   "count": 3,
+   "uniques": 1
   }
  },
  "clones": {
@@ -323,18 +327,47 @@
   "2026-11-23": {
    "count": 22,
    "uniques": 12
+  },
+  "2026-11-24": {
+   "count": 5,
+   "uniques": 3
   }
  },
  "last14": {
   "views": {
-   "count": 0,
-   "uniques": 0
+   "count": 3,
+   "uniques": 1
   },
   "clones": {
-   "count": 138,
+   "count": 137,
    "uniques": 63
   }
  },
- "referrers": [],
- "paths": []
+ "referrers": [
+  {
+   "referrer": "github.com",
+   "count": 1,
+   "uniques": 1
+  }
+ ],
+ "paths": [
+  {
+   "path": "/whiang/Beagle",
+   "title": "Overview",
+   "count": 1,
+   "uniques": 1
+  },
+  {
+   "path": "/whiang/Beagle/actions/runs/41241630778",
+   "title": "/actions/runs/41241630778",
+   "count": 1,
+   "uniques": 1
+  },
+  {
+   "path": "/whiang/Beagle/actions/runs/41241630778/job/124656542970",
+   "title": "/actions/runs/41241630778/job/124656542970",
+   "count": 1,
+   "uniques": 1
+  }
+ ]
 }
